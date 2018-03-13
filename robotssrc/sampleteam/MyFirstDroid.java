@@ -56,7 +56,7 @@ public class MyFirstDroid extends TeamRobot implements Droid {
 			setGunColor(c.gunColor);
 			setRadarColor(c.radarColor);
 			setScanColor(c.scanColor);
-			setBulletColor(c.bulletColor);
+			setBulletColor(c.bulletColor); //5
 		}
 	}
 }
