@@ -5,12 +5,14 @@ public class RobotReference {
     private String name;
     private Vector2d velocity;
     private double energy;
+    private boolean isTeammate;
 
-    public RobotReference(String name, Vector2d location, Vector2d velocity, double energy) {
+    public RobotReference(String name, boolean isTeammate, Vector2d location, Vector2d velocity, double energy) {
         this.name = name;
         this.location = location;
         this.velocity = velocity;
         this.energy = energy;
+        this.isTeammate = isTeammate;
     }
 
     public Vector2d getLocation() {
