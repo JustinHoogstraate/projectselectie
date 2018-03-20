@@ -5,6 +5,7 @@ import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.exception.RobotException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class HybridAttackBase extends TeamRobot {
@@ -15,6 +16,26 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     public HybridAttackBase() {
 
+    }
+
+    protected ArrayList<RobotReference> getEnemies() {
+        return getRobotsByAllegiance(false);
+    }
+
+    protected ArrayList<RobotReference> getTeam() {
+        return getRobotsByAllegiance(true);
+    }
+
+    private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
+        ArrayList<RobotReference> result = new ArrayList();
+
+        for(String robot : robots.keySet()) {
+            if (robots.get(robot).isTeammate() == teammate) {
+                result.add(robots.get(robot));
+            }
+        }
+
+        return result;
     }
 
     @Override
