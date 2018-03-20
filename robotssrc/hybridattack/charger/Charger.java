@@ -22,7 +22,7 @@ public class Charger extends HybridAttackBase {
                         if (enemy != teamTarget) {
                             lowestHealth = enemy;
                         }
-                        if (!lowestHealth.isTeammate()) {
+                        
                             turnLeft(lowestHealth.getLocation().subtract(location).getWorldBearing() + getHeading());
                             ahead(500);
 
