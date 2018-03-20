@@ -1,6 +1,6 @@
 package hybridattack.bulletshield;
 
-import robocode.TeamRobot;
+import hybridattack.Generic.HybridAttackBase;
 
-public class BulletShield extends TeamRobot {
+public class BulletShield extends HybridAttackBase {
 }

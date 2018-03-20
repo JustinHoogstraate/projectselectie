@@ -1,6 +1,6 @@
 package hybridattack.charger;
 
-import robocode.TeamRobot;
+import hybridattack.Generic.HybridAttackBase;
 
-public class Charger extends TeamRobot {
+public class Charger extends HybridAttackBase {
 }

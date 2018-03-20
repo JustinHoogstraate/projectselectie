@@ -1,6 +1,6 @@
 package hybridattack.targetleader;
 
-import robocode.TeamRobot;
+import hybridattack.Generic.HybridAttackBase;
 
-public class TargetLeader extends TeamRobot {
+public class TargetLeader extends HybridAttackBase {
 }
