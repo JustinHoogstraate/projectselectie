@@ -1,4 +1,4 @@
-package samplerobotvanrobin;
+package hybridattack.Generic;
 
 import java.io.Serializable;
 

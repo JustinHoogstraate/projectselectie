@@ -1,6 +1,6 @@
 package samplerobotvanrobin;
 
-import robocode.TeamRobot;
+import hybridattack.Generic.Vector2d;
 
 public class GunController extends RobotController {
     private final boolean DO_TARGET_LEADING = false;
