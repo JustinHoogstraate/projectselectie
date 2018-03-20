@@ -1,10 +1,14 @@
 package hybridattack.Generic;
 
+import robocode.MessageEvent;
 import robocode.Robot;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.exception.RobotException;
 
+import java.util.ArrayList;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 
 public abstract class HybridAttackBase extends TeamRobot {
@@ -17,6 +21,26 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     }
 
+    protected ArrayList<RobotReference> getEnemies() {
+        return getRobotsByAllegiance(false);
+    }
+
+    protected ArrayList<RobotReference> getTeam() {
+        return getRobotsByAllegiance(true);
+    }
+
+    private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
+        ArrayList<RobotReference> result = new ArrayList();
+
+        for(String robot : robots.keySet()) {
+            if (robots.get(robot).isTeammate() == teammate) {
+                result.add(robots.get(robot));
+            }
+        }
+
+        return result;
+    }
+
     @Override
     public void run() {
         super.run();
@@ -25,7 +49,7 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
-        while(getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
+        while (getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
             execute();
         }
     }
@@ -53,14 +77,27 @@ public abstract class HybridAttackBase extends TeamRobot {
         boolean isTeammate = isTeammate(name);
         double energy = event.getEnergy();
 
+        RobotReference steve;
+
         if (robots.containsKey(name)) {
-            RobotReference robot = robots.get(name);
-            robot.setLocation(absoluteLocation);
-            robot.setVelocity(velocity2d);
-            robot.setEnergy(energy);
+            steve = robots.get(name);
+            steve.setLocation(absoluteLocation);
+            steve.setVelocity(velocity2d);
+            steve.setEnergy(energy);
         } else {
-            RobotReference steve = new RobotReference(name, isTeammate, absoluteLocation, velocity2d, energy);
+            steve = new RobotReference(name, isTeammate, absoluteLocation, velocity2d, energy);
             robots.put(name, steve);
         }
+        try {
+            broadcastMessage(new UpdateRobotMessage(steve));
+        } catch (IOException ioe) {
+        }
+
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent event) {
+        Serializable message = event.getMessage();
+
     }
 }
