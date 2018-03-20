@@ -1,5 +1,7 @@
 package samplerobotvanrobin;
 
+import hybridattack.Generic.Vector2d;
+
 public class RobotReference {
     private boolean isTeammate = false;
     private String name;

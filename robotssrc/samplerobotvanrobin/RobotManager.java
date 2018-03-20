@@ -1,5 +1,7 @@
 package samplerobotvanrobin;
 
+import hybridattack.Generic.Vector2d;
+
 import java.util.ArrayList;
 
 public class RobotManager {

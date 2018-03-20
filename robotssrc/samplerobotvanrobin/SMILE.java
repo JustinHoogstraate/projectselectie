@@ -1,9 +1,9 @@
 package samplerobotvanrobin;
 
+import hybridattack.Generic.Vector2d;
 import robocode.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SMILE extends TeamRobot {
     private ScannerController scanner;

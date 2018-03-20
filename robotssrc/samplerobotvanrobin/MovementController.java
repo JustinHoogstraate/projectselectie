@@ -1,6 +1,6 @@
 package samplerobotvanrobin;
 
-import robocode.TeamRobot;
+import hybridattack.Generic.Vector2d;
 
 public class MovementController extends RobotController {
     private boolean reverse = false;

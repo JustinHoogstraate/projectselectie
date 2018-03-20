@@ -1,6 +1,6 @@
 package samplerobotvanrobin;
 
-import robocode.ScannedRobotEvent;
+import hybridattack.Generic.Vector2d;
 
 public class ScannerController extends RobotController {
     private RobotManager robotManager;
