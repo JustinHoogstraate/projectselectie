@@ -6,9 +6,9 @@ import robocode.TeamRobot;
 import java.util.HashMap;
 
 public abstract class HybridAttackBase extends TeamRobot {
-    private Vector2d location;
+    protected Vector2d location;
 
-    private HashMap<String, RobotReference> robots = new HashMap();
+    protected HashMap<String, RobotReference> robots = new HashMap();
 
     public HybridAttackBase() {
         updateVelocity();
