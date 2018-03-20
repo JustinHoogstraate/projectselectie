@@ -25,7 +25,9 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
-        execute();
+        while(getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
+            execute();
+        }
     }
 
     private void updateLocation() {
@@ -48,7 +50,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         Vector2d velocity2d = Vector2d.getFromBearingAndDistance(heading, velocity);
 
         String name = event.getName();
-
+        boolean isTeammate = isTeammate(name);
         double energy = event.getEnergy();
 
         if (robots.containsKey(name)) {
@@ -57,7 +59,7 @@ public abstract class HybridAttackBase extends TeamRobot {
             robot.setVelocity(velocity2d);
             robot.setEnergy(energy);
         } else {
-            RobotReference steve = new RobotReference(name, absoluteLocation, velocity2d, energy);
+            RobotReference steve = new RobotReference(name, isTeammate, absoluteLocation, velocity2d, energy);
             robots.put(name, steve);
         }
     }
