@@ -1,4 +1,4 @@
-package team1Robots;
+package hybridattack.charger;
 
 import robocode.TeamRobot;
 

@@ -1,4 +1,4 @@
-package team1Robots;
+package hybridattack.targetleader;
 
 import robocode.TeamRobot;
 
