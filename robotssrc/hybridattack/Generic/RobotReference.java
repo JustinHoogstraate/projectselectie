@@ -22,8 +22,12 @@ public class RobotReference {
         return this.energy;
     }
 
+    public void setLocation(Vector2d value) {
+        this.location = value;
+    }
+
     public void setLocation(double x, double y) {
-        this.location = new Vector2d(x, y);
+        setLocation(new Vector2d(x, y));
     }
 
     public void setVelocity(Vector2d value) {
@@ -31,11 +35,11 @@ public class RobotReference {
     }
 
     public void setVelocity(double x, double y) {
-        this.velocity = new Vector2d(x, y);
+        setVelocity(new Vector2d(x, y));
     }
 
-    public void setVelocityFromBearingVelocity(double bearing, double velocity) {
-        this.velocity = Vector2d.getFromBearingAndDistance(bearing, velocity);
+    public void setVelocityFromBearingDistance(double bearing, double distance) {
+        this.velocity = Vector2d.getFromBearingAndDistance(bearing, distance);
     }
 
     @Override
