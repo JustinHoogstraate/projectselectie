@@ -3,3 +3,6 @@
 *.xml
 .idea/vcs.xml
 .idea/workspace.xml
+*.database
+*.class
+*.class
