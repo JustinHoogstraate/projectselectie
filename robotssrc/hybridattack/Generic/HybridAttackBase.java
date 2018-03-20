@@ -25,7 +25,9 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
-        execute();
+        while(getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
+            execute();
+        }
     }
 
     private void updateLocation() {

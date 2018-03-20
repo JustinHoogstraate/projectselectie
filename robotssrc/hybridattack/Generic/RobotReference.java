@@ -51,6 +51,10 @@ public class RobotReference {
         this.energy = value;
     }
 
+    public boolean isTeammate() {
+        return this.isTeammate;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RobotReference) {
