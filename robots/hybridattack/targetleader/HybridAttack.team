@@ -1,0 +1,6 @@
+#Robocode robot team
+#Tue Mar 20 12:51:05 CET 2018
+team.members=hybridattack.targetleader.TargetLeader*,hybridattack.targetleader.TargetLeader*,hybridattack.charger.Charger*,hybridattack.bulletshield.BulletShield*
+team.author.name=Vinnah
+robocode.version=1.9.3.0
+team.description=first test for charger

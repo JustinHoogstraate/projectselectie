@@ -17,6 +17,8 @@ public abstract class HybridAttackBase extends TeamRobot {
     protected HashMap<String, RobotReference> robots = new HashMap();
     protected RobotReference teamTarget = null;
 
+    private HashMap<String, Double> previousEnergyMap = new HashMap<>();
+
     public HybridAttackBase() {
 
     }
@@ -95,6 +97,16 @@ public abstract class HybridAttackBase extends TeamRobot {
             ; //ignore
         }
 
+        if(enemyHasFired(steve)){
+            //broadcast message
+            EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
+            try {
+                broadcastMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -102,6 +114,33 @@ public abstract class HybridAttackBase extends TeamRobot {
         Serializable message = event.getMessage();
 
     }
+
+    private boolean enemyHasFired(RobotReference robotReference) {
+        try {
+            if (robotReference.getEnergy() < previousEnergyMap.get(robotReference.getName())) {
+                return true;
+            }
+        } catch (NullPointerException exception) {
+            //Do nothing
+            //There is no previous energy data
+        }
+        return false;
+    }
+
+    private void turnToVector(Vector2d vector){
+        Vector2d relativeLocation = location.subtract(vector);
+        double angle = relativeLocation.getWorldBearing();
+        double localHeading = angle - getGunHeading();
+        if (localHeading > 180) {
+            localHeading -= 360;
+        }
+        if (localHeading > 0) {
+            turnGunRight(localHeading);
+        } else if (localHeading < 0) {
+            turnGunLeft(localHeading * -1);
+        }
+    }
+
 
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
