@@ -19,6 +19,7 @@ public class TargetLeader extends HybridAttackBase {
         while (true) {
             doDodge();
             super.run();
+            fireAtTarget();
         }
     }
 
@@ -26,7 +27,7 @@ public class TargetLeader extends HybridAttackBase {
     public void onMessageReceived(MessageEvent event) {
         super.onMessageReceived(event);
         if (event.getMessage() instanceof EnemyFiredMessage) {
-            EnemyFiredMessage message = (EnemyFiredMessage)event.getMessage();
+            EnemyFiredMessage message = (EnemyFiredMessage) event.getMessage();
             dodgeAroundLocation = message.getFiredFromLocation();
             shouldDoDodge = true;
         }
@@ -57,6 +58,7 @@ public class TargetLeader extends HybridAttackBase {
             shouldDoDodge = false;
         }
     }
+
     @Override
     protected void setTeamTarget(hybridattack.Generic.RobotReference reference) {
         if (teamTarget == null && !reference.isTeammate() && teamTarget != reference) {
@@ -74,5 +76,13 @@ public class TargetLeader extends HybridAttackBase {
         super.onEnemyFired(location);
         shouldDoDodge = true;
         dodgeAroundLocation = location;
+    }
+
+    private void fireAtTarget() {
+        if (teamTarget != null) {
+            pointGunToVector(teamTarget.getLocation());
+        }
+        double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
+        fire(firepower);
     }
 }

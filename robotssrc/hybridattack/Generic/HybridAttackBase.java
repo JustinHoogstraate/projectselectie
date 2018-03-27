@@ -114,7 +114,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         try {
             broadcastMessage(new UpdateRobotMessage(steve));
         } catch (IOException ioe) {
-            ; //ignore
+             //ignore
         }
 
         if (!steve.isTeammate()) {
@@ -153,7 +153,21 @@ public abstract class HybridAttackBase extends TeamRobot {
         return false;
     }
 
-    private void turnToVector(Vector2d vector) {
+    protected void turnToVector(Vector2d vector) {
+        Vector2d relativeLocation = location.subtract(vector);
+        double angle = relativeLocation.getWorldBearing();
+        double localHeading = angle - getHeading();
+        if (localHeading > 180) {
+            localHeading -= 360;
+        }
+        if (localHeading > 0) {
+            setTurnRight(localHeading);
+        } else if (localHeading < 0) {
+            setTurnLeft(localHeading * -1);
+        }
+    }
+
+    protected void pointGunToVector(Vector2d vector){
         Vector2d relativeLocation = location.subtract(vector);
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getGunHeading();
