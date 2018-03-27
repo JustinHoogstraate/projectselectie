@@ -1,18 +1,22 @@
 package hybridattack.Generic;
 
-public class RobotReference {
+import java.io.Serializable;
+
+public class RobotReference implements Serializable {
     private Vector2d location;
     private String name;
     private Vector2d velocity;
     private double energy;
     private boolean isTeammate;
+    private double heading;
 
-    public RobotReference(String name, boolean isTeammate, Vector2d location, Vector2d velocity, double energy) {
+    public RobotReference(String name, boolean isTeammate, Vector2d location, Vector2d velocity, double energy, double heading) {
         this.name = name;
         this.location = location;
         this.velocity = velocity;
         this.energy = energy;
         this.isTeammate = isTeammate;
+        this.heading = heading;
     }
 
     public Vector2d getLocation() {
@@ -55,12 +59,19 @@ public class RobotReference {
         return this.isTeammate;
     }
 
+    public double getHeading() {
+        return heading;
+    }
+
+    public void setHeading(double heading) {
+        this.heading = heading;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RobotReference) {
-            return ((RobotReference)obj).getName().equals(this.name);
-        }
-        else {
+            return ((RobotReference) obj).getName().equals(this.name);
+        } else {
             return super.equals(obj);
         }
     }
