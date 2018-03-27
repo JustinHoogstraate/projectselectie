@@ -53,11 +53,10 @@ public class TargetLeader extends HybridAttackBase {
             shouldDoDodge = false;
         }
     }
-
-    public void setTarget(hybridattack.Generic.RobotReference reference) {
+    @Override
+    protected void setTeamTarget(hybridattack.Generic.RobotReference reference) {
         if (teamTarget == null && !reference.isTeammate() && teamTarget != reference) {
             teamTarget = reference;
-
             try {
                 broadcastMessage(new SetTargetMessage(teamTarget));
             } catch (IOException ioe) {

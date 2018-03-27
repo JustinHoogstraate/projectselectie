@@ -115,7 +115,10 @@ public abstract class HybridAttackBase extends TeamRobot {
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
-        if (message instanceof)
+        if (message instanceof SetTargetMessage){
+            RobotReference target = ((SetTargetMessage)message).getTarget();
+            setTeamTarget(target);
+        }
     }
 
     private boolean enemyHasFired(RobotReference robotReference) {
