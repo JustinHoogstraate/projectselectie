@@ -19,18 +19,34 @@ public class RobotReference implements Serializable {
         this.heading = heading;
     }
 
+    /**
+     * Get the world location of this robot. [0, 0] = the bottom left corner of the arena.
+     * @return
+     */
     public Vector2d getLocation() {
         return this.location;
     }
 
+    /**
+     * Returns the 2D velocity vector of this robot. To get the absolute velocity, call getLength() on the result vector.
+     * @return
+     */
     public Vector2d getVelocity() {
         return this.velocity;
     }
 
+    /**
+     * Get the unique name identifier of this robot.
+     * @return
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Get the energy of this robot.
+     * @return
+     */
     public double getEnergy() {
         return this.energy;
     }
@@ -59,12 +75,30 @@ public class RobotReference implements Serializable {
         return this.isTeammate;
     }
 
+    /**
+     * Returns the heading (body facing direction) of this robot.
+     * @return
+     */
     public double getHeading() {
         return heading;
     }
 
     public void setHeading(double heading) {
         this.heading = heading;
+    }
+
+    /**
+     * Returns the angle from the given location to this robot, in degrees. Angle is absolute; 0 = global up, 90 = global right, and so on.
+     * @param fromLocation The location from which to determine the angle to this robot.
+     * @return The angle from the given location to this robot. Value is between 0 (inclusive) and 360 (exclusive).
+     */
+    public double getBearingTo(Vector2d fromLocation) {
+        Vector2d relativeLocation = this.location.subtract(fromLocation);
+        double angle = relativeLocation.getWorldBearing();
+        while (angle >= 360) {
+            angle -= 360;
+        }
+        return angle;
     }
 
     @Override

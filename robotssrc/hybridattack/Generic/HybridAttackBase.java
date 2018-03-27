@@ -56,6 +56,8 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
+        forward = getVelocity() > 0;
+
         if (isNearTopWall()) {
             onNearWall(0);
         }
@@ -196,22 +198,22 @@ public abstract class HybridAttackBase extends TeamRobot {
     private void onNearWall(int wall) {
         switch (wall) {
             case 0:
-                if (getHeading() > 270 || getHeading() < 90) {
+                if (headingInRange(270, 90, forward)) {
                     reverse();
                 }
                 break;
             case 1:
-                if (getHeading() > 0 && getHeading() <= 180) {
+                if (headingInRange(0, 180, forward)) {
                     reverse();
                 }
                 break;
             case 2:
-                if (getHeading() > 90 && getHeading() <= 180) {
+                if (headingInRange(90, 270, forward)) {
                     reverse();
                 }
                 break;
             case 3:
-                if (getHeading() > 180 || getHeading() < 360) {
+                if (headingInRange(180, 360, forward)) {
                     reverse();
                 }
                 break;
@@ -229,8 +231,15 @@ public abstract class HybridAttackBase extends TeamRobot {
                 to -= 360;
             }
         }
-        if (getHeading() >= from && getHeading() <= to) {
-            return true;
+        if (to < from) {
+            if (getHeading() >= from || getHeading() <= to) {
+                return true;
+            }
+        }
+        else {
+            if (getHeading() >= from && getHeading() <= to) {
+                return true;
+            }
         }
         return false;
     }
