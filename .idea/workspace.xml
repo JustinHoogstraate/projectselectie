@@ -2,20 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="345fb80f-fdd9-40ea-be5a-e4cd3eda1d08" name="Default" comment="">
-<<<<<<< HEAD
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/robots/robot.database" afterPath="$PROJECT_DIR$/robots/robot.database" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/robotsbin/production/robocode/hybridattack/charger/Charger.class" afterPath="$PROJECT_DIR$/robotsbin/production/robocode/hybridattack/charger/Charger.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/robocode.properties" afterPath="$PROJECT_DIR$/config/robocode.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/window.properties" afterPath="$PROJECT_DIR$/config/window.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/robotssrc/hybridattack/charger/Charger.java" afterPath="$PROJECT_DIR$/robotssrc/hybridattack/charger/Charger.java" />
-=======
-      <change beforePath="" afterPath="$PROJECT_DIR$/robotssrc/hybridattack/Generic/SetTargetMessage.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/robotssrc/hybridattack/Generic/HybridAttackBase.java" afterPath="$PROJECT_DIR$/robotssrc/hybridattack/Generic/HybridAttackBase.java" />
-      <change beforePath="$PROJECT_DIR$/robotssrc/hybridattack/bulletshield/BulletShield.java" afterPath="$PROJECT_DIR$/robotssrc/hybridattack/bulletshield/BulletShield.java" />
-      <change beforePath="$PROJECT_DIR$/robotssrc/hybridattack/targetleader/TargetLeader.java" afterPath="$PROJECT_DIR$/robotssrc/hybridattack/targetleader/TargetLeader.java" />
->>>>>>> origin/master
     </list>
     <ignored path="robocode.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,14 +21,12 @@
     <favorites_list name="robocode" />
   </component>
   <component name="FileEditorManager">
-<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file leaf-file-name="Charger.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/robotssrc/hybridattack/charger/Charger.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="231">
               <caret line="58" column="21" lean-forward="false" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
-=======
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="HybridAttackBase.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/robotssrc/hybridattack/Generic/HybridAttackBase.java">
@@ -68,7 +52,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="725">
               <caret line="58" column="9" lean-forward="true" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
->>>>>>> origin/master
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,8 +59,6 @@
           </provider>
         </entry>
       </file>
-<<<<<<< HEAD
-=======
       <file leaf-file-name="SetTargetMessage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/robotssrc/hybridattack/Generic/SetTargetMessage.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -128,7 +109,6 @@
           </provider>
         </entry>
       </file>
->>>>>>> origin/master
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -166,13 +146,10 @@
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/Generic/RobotReference.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/Generic/Message.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/Generic/UpdateRobotMessage.java" />
-<<<<<<< HEAD
-=======
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/charger/Charger.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/bulletshield/BulletShield.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/Generic/SetTargetMessage.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/targetleader/TargetLeader.java" />
->>>>>>> origin/master
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/Generic/HybridAttackBase.java" />
         <option value="$PROJECT_DIR$/robotssrc/hybridattack/charger/Charger.java" />
       </list>
@@ -232,8 +209,6 @@
               <item name="projectselectie" type="462c0819:PsiDirectoryNode" />
               <item name="robotssrc" type="462c0819:PsiDirectoryNode" />
               <item name="hybridattack" type="462c0819:PsiDirectoryNode" />
-<<<<<<< HEAD
-=======
               <item name="bulletshield" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -241,7 +216,6 @@
               <item name="projectselectie" type="462c0819:PsiDirectoryNode" />
               <item name="robotssrc" type="462c0819:PsiDirectoryNode" />
               <item name="hybridattack" type="462c0819:PsiDirectoryNode" />
->>>>>>> origin/master
               <item name="charger" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -258,7 +232,6 @@
               <item name="hybridattack" type="462c0819:PsiDirectoryNode" />
               <item name="targetleader" type="462c0819:PsiDirectoryNode" />
             </path>
-<<<<<<< HEAD
             <path>
               <item name="robocode" type="b2602c69:ProjectViewProjectNode" />
               <item name="projectselectie" type="462c0819:PsiDirectoryNode" />
@@ -277,19 +250,14 @@
               <item name="robotssrc" type="462c0819:PsiDirectoryNode" />
               <item name="sampleteam" type="462c0819:PsiDirectoryNode" />
             </path>
-=======
->>>>>>> origin/master
           </expand>
           <select />
         </subPane>
       </pane>
-<<<<<<< HEAD
       <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="Scope" />
-=======
->>>>>>> origin/master
     </panes>
   </component>
   <component name="PropertiesComponent">
