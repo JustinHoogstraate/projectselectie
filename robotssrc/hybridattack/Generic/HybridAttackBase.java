@@ -84,8 +84,9 @@ public abstract class HybridAttackBase extends TeamRobot {
             steve.setLocation(absoluteLocation);
             steve.setVelocity(velocity2d);
             steve.setEnergy(energy);
+            steve.setHeading(heading);
         } else {
-            steve = new RobotReference(name, isTeammate, absoluteLocation, velocity2d, energy);
+            steve = new RobotReference(name, isTeammate, absoluteLocation, velocity2d, energy, heading);
             robots.put(name, steve);
         }
         try {
@@ -100,4 +101,6 @@ public abstract class HybridAttackBase extends TeamRobot {
         Serializable message = event.getMessage();
 
     }
+
+
 }
