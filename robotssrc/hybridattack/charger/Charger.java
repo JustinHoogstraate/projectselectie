@@ -30,7 +30,20 @@ public class Charger extends HybridAttackBase {
 
     public void killDouweBot(){
         ArrayList<RobotReference> enemies = getEnemies();
-        RobotReference lowestHealth = null;
+        RobotReference lowestHealth = enemies.get(0);
+        for(RobotReference enemy: enemies) {
+            if(enemy.getEnergy() < lowestHealth.getEnergy() && !enemy.isTeammate() && enemy != teamTarget){
+                lowestHealth = enemy;
+            }
+            else{
+                //shoot on teamtarget
+            }
+            
+
+        }
+
+
+
 
 
     }

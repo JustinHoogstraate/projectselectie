@@ -2,8 +2,13 @@ package hybridattack.targetleader;
 
 import hybridattack.Generic.EnemyFiredMessage;
 import hybridattack.Generic.HybridAttackBase;
+import hybridattack.Generic.SetTargetMessage;
 import hybridattack.Generic.Vector2d;
 import robocode.MessageEvent;
+import samplerobotvanrobin.RobotReference;
+
+import java.io.IOError;
+import java.io.IOException;
 
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
@@ -29,10 +34,7 @@ public class TargetLeader extends HybridAttackBase {
 
     private void doDodge() {
         if (shouldDoDodge && dodgeAroundLocation != null) {
-            System.out.println(dodgeAroundLocation);
-            double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing() + 90;
-            System.out.println(dodgeAngle);
-
+            double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing();
             double relativeDodgeAngle = dodgeAngle - getHeading();
             while (relativeDodgeAngle >= 360) {
                 relativeDodgeAngle -= 360;
@@ -40,8 +42,7 @@ public class TargetLeader extends HybridAttackBase {
 
             if (relativeDodgeAngle > 0) {
                 setTurnRight(relativeDodgeAngle);
-            }
-            else {
+            } else {
                 setTurnLeft(Math.abs(relativeDodgeAngle));
             }
 
@@ -49,13 +50,23 @@ public class TargetLeader extends HybridAttackBase {
 
             if (forward) {
                 setAhead(100);
-            }
-            else {
+            } else {
                 setBack(100);
             }
 
             shouldDoDodge = false;
         }
+    }
+    @Override
+    protected void setTeamTarget(hybridattack.Generic.RobotReference reference) {
+        if (teamTarget == null && !reference.isTeammate() && teamTarget != reference) {
+            teamTarget = reference;
+            try {
+                broadcastMessage(new SetTargetMessage(teamTarget));
+            } catch (IOException ioe) {
+            }
+        }
+
     }
 
     @Override

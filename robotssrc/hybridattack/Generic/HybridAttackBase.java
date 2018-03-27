@@ -1,6 +1,9 @@
 package hybridattack.Generic;
 
+import robocode.*;
+import robocode.exception.RobotException;
 import robocode.MessageEvent;
+import robocode.RobotDeathEvent;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 
@@ -113,18 +116,27 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
 
         if (!steve.isTeammate()) {
+            if (teamTarget == null && teamTarget != steve) {
+                setTeamTarget(steve);
+            }
+
+        if (!steve.isTeammate()) {
             if (enemyHasFired(steve)) {
                 onEnemyFired(steve.getLocation());
             }
             previousEnergyMap.put(steve.getName(), steve.getEnergy());
         }
 
+
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
-
+        if (message instanceof SetTargetMessage){
+            RobotReference target = ((SetTargetMessage)message).getTarget();
+            setTeamTarget(target);
+        }
     }
 
     private boolean enemyHasFired(RobotReference robotReference) {
@@ -223,5 +235,19 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     protected boolean isNearBottomWall() {
         return getX() <= getBattleFieldHeight() - DISTANCE_FROM_WALLS;
+    }
+
+    protected void setTeamTarget(RobotReference reference) {
+        this.teamTarget = reference;
+    }
+
+    @Override
+    public void onRobotDeath(RobotDeathEvent event) {
+        super.onRobotDeath(event);
+        String name = event.getName();
+        if (teamTarget.getName().equals(name)) {
+            teamTarget = null;
+        }
+        robots.remove(name);
     }
 }
