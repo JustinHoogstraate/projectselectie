@@ -92,6 +92,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         try {
             broadcastMessage(new UpdateRobotMessage(steve));
         } catch (IOException ioe) {
+            ; //ignore
         }
 
     }
@@ -102,5 +103,7 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     }
 
-
+    protected Vector2d getLocation() {
+        return new Vector2d(getX(), getY());
+    }
 }
