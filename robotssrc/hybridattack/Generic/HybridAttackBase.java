@@ -1,9 +1,6 @@
 package hybridattack.Generic;
 
-import robocode.MessageEvent;
-import robocode.Robot;
-import robocode.ScannedRobotEvent;
-import robocode.TeamRobot;
+import robocode.*;
 import robocode.exception.RobotException;
 
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
         ArrayList<RobotReference> result = new ArrayList();
 
-        for(String robot : robots.keySet()) {
+        for (String robot : robots.keySet()) {
             if (robots.get(robot).isTeammate() == teammate) {
                 result.add(robots.get(robot));
             }
@@ -97,7 +94,11 @@ public abstract class HybridAttackBase extends TeamRobot {
             ; //ignore
         }
 
-        if(!steve.isTeammate()) {
+        if (!steve.isTeammate()) {
+            if (teamTarget == null && teamTarget != steve) {
+                setTeamTarget(steve);
+            }
+
             if (enemyHasFired(steve)) {
                 //broadcast message
                 EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
@@ -109,12 +110,13 @@ public abstract class HybridAttackBase extends TeamRobot {
             }
         }
 
+
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
-
+        if (message instanceof)
     }
 
     private boolean enemyHasFired(RobotReference robotReference) {
@@ -129,7 +131,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         return false;
     }
 
-    private void turnToVector(Vector2d vector){
+    private void turnToVector(Vector2d vector) {
         Vector2d relativeLocation = location.subtract(vector);
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getGunHeading();
@@ -146,5 +148,19 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
+    }
+
+    protected void setTeamTarget(RobotReference reference) {
+        this.teamTarget = reference;
+    }
+
+    @Override
+    public void onRobotDeath(RobotDeathEvent event) {
+        super.onRobotDeath(event);
+        String name = event.getName();
+        if (teamTarget.getName().equals(name)) {
+            teamTarget = null;
+        }
+        robots.remove(name);
     }
 }

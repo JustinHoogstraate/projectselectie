@@ -52,7 +52,7 @@ public class BulletShield extends HybridAttackBase {
             if (enemyHasFired(robot)) {
                 System.out.println(robot.getName() + " fired!");
                 Vector2d bulletPosition = calculateBulletPosition(robot);
-                shootAtBullet(bulletPosition);
+                //shootAtBullet(bulletPosition);
                 //Broadcast message
             }
             previousEnergyMap.put(robot.getName(), robot.getEnergy());

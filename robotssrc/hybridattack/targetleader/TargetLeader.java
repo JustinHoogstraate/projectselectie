@@ -1,8 +1,13 @@
 package hybridattack.targetleader;
 
 import hybridattack.Generic.HybridAttackBase;
+import hybridattack.Generic.SetTargetMessage;
 import hybridattack.Generic.Vector2d;
 import robocode.MessageEvent;
+import samplerobotvanrobin.RobotReference;
+
+import java.io.IOError;
+import java.io.IOException;
 
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
@@ -30,18 +35,28 @@ public class TargetLeader extends HybridAttackBase {
 
             if (relativeDodgeAngle > 0) {
                 setTurnRight(relativeDodgeAngle);
-            }
-            else {
+            } else {
                 setTurnLeft(Math.abs(relativeDodgeAngle));
             }
 
-            boolean forward = (int)(Math.random() * 100) % 2 == 1;
+            boolean forward = (int) (Math.random() * 100) % 2 == 1;
             if (forward) {
                 setAhead(100);
-            }
-            else {
+            } else {
                 setBack(100);
             }
         }
+    }
+
+    public void setTarget(hybridattack.Generic.RobotReference reference) {
+        if (teamTarget == null && !reference.isTeammate() && teamTarget != reference) {
+            teamTarget = reference;
+
+            try {
+                broadcastMessage(new SetTargetMessage(teamTarget));
+            } catch (IOException ioe) {
+            }
+        }
+
     }
 }
