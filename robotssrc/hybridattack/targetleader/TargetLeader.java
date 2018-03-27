@@ -1,5 +1,6 @@
 package hybridattack.targetleader;
 
+import hybridattack.Generic.EnemyFiredMessage;
 import hybridattack.Generic.HybridAttackBase;
 import hybridattack.Generic.Vector2d;
 import robocode.MessageEvent;
@@ -7,24 +8,27 @@ import robocode.MessageEvent;
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
     private Vector2d dodgeAroundLocation = null;
-    private boolean isDodging = false;
 
     @Override
     public void run() {
         while (true) {
-            super.run();
             doDodge();
+            super.run();
         }
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         super.onMessageReceived(event);
-        //if (event.getMessage() instanceof )
+        if (event.getMessage() instanceof EnemyFiredMessage) {
+            EnemyFiredMessage message = (EnemyFiredMessage)event.getMessage();
+            dodgeAroundLocation = message.getFiredFromLocation();
+            shouldDoDodge = true;
+        }
     }
 
     private void doDodge() {
-        if (shouldDoDodge && !isDodging && dodgeAroundLocation != null) {
+        if (shouldDoDodge && dodgeAroundLocation != null) {
             double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing();
             double relativeDodgeAngle = dodgeAngle - getHeading();
 
@@ -42,6 +46,15 @@ public class TargetLeader extends HybridAttackBase {
             else {
                 setBack(100);
             }
+
+            shouldDoDodge = false;
         }
+    }
+
+    @Override
+    protected void onEnemyFired(Vector2d location) {
+        super.onEnemyFired(location);
+        shouldDoDodge = true;
+        dodgeAroundLocation = location;
     }
 }

@@ -99,13 +99,7 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         if(!steve.isTeammate()) {
             if (enemyHasFired(steve)) {
-                //broadcast message
-                EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
-                try {
-                    broadcastMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onEnemyFired(steve.getLocation());
             }
         }
 
@@ -143,6 +137,15 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    protected void onEnemyFired(Vector2d location) {
+        //broadcast message
+        EnemyFiredMessage message = new EnemyFiredMessage(location);
+        try {
+            broadcastMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
