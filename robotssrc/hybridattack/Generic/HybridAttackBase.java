@@ -1,6 +1,9 @@
 package hybridattack.Generic;
 
+import robocode.*;
+import robocode.exception.RobotException;
 import robocode.MessageEvent;
+import robocode.RobotDeathEvent;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 
@@ -17,6 +20,10 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     private HashMap<String, Double> previousEnergyMap = new HashMap<>();
 
+    protected final int DISTANCE_FROM_WALLS = 100;
+
+    protected boolean forward = false;
+
     public HybridAttackBase() {
 
     }
@@ -32,7 +39,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
         ArrayList<RobotReference> result = new ArrayList();
 
-        for(String robot : robots.keySet()) {
+        for (String robot : robots.keySet()) {
             if (robots.get(robot).isTeammate() == teammate) {
                 result.add(robots.get(robot));
             }
@@ -49,6 +56,19 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
+        if (isNearTopWall()) {
+            onNearWall(0);
+        }
+        if (isNearRightWall()) {
+            onNearWall(1);
+        }
+        if (isNearBottomWall()) {
+            onNearWall(2);
+        }
+        if (isNearLeftWall()) {
+            onNearWall(3);
+        }
+
         while (getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
             execute();
         }
@@ -64,7 +84,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     public void onScannedRobot(ScannedRobotEvent event) {
         super.onScannedRobot(event);
 
-        double bearing = event.getBearing();
+        double bearing = event.getBearing() + getHeading();
         double distance = event.getDistance();
         Vector2d relativeLocation = Vector2d.getFromBearingAndDistance(bearing, distance);
         Vector2d absoluteLocation = relativeLocation.add(location);
@@ -92,22 +112,31 @@ public abstract class HybridAttackBase extends TeamRobot {
         try {
             broadcastMessage(new UpdateRobotMessage(steve));
         } catch (IOException ioe) {
-            ; //ignore
+             //ignore
         }
 
-        if(!steve.isTeammate()) {
-            if (enemyHasFired(steve)) {
-                onEnemyFired(steve.getLocation());
+        if (!steve.isTeammate()) {
+            if (teamTarget == null && teamTarget != steve) {
+                setTeamTarget(steve);
             }
-            previousEnergyMap.put(steve.getName(), steve.getEnergy());
-        }
 
+            if (!steve.isTeammate()) {
+                if (enemyHasFired(steve)) {
+                    onEnemyFired(steve.getLocation());
+                }
+                previousEnergyMap.put(steve.getName(), steve.getEnergy());
+            }
+
+        }
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
-
+        if (message instanceof SetTargetMessage) {
+            RobotReference target = ((SetTargetMessage) message).getTarget();
+            setTeamTarget(target);
+        }
     }
 
     private boolean enemyHasFired(RobotReference robotReference) {
@@ -122,7 +151,21 @@ public abstract class HybridAttackBase extends TeamRobot {
         return false;
     }
 
-    private void turnToVector(Vector2d vector){
+    protected void turnToVector(Vector2d vector) {
+        Vector2d relativeLocation = location.subtract(vector);
+        double angle = relativeLocation.getWorldBearing();
+        double localHeading = angle - getHeading();
+        if (localHeading > 180) {
+            localHeading -= 360;
+        }
+        if (localHeading > 0) {
+            setTurnRight(localHeading);
+        } else if (localHeading < 0) {
+            setTurnLeft(localHeading * -1);
+        }
+    }
+
+    protected void pointGunToVector(Vector2d vector){
         Vector2d relativeLocation = location.subtract(vector);
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getGunHeading();
@@ -148,5 +191,81 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
+    }
+
+    private void onNearWall(int wall) {
+        switch (wall) {
+            case 0:
+                if (getHeading() > 270 || getHeading() < 90) {
+                    reverse();
+                }
+                break;
+            case 1:
+                if (getHeading() > 0 && getHeading() <= 180) {
+                    reverse();
+                }
+                break;
+            case 2:
+                if (getHeading() > 90 && getHeading() <= 180) {
+                    reverse();
+                }
+                break;
+            case 3:
+                if (getHeading() > 180 || getHeading() < 360) {
+                    reverse();
+                }
+                break;
+        }
+    }
+
+    private boolean headingInRange(int from, int to, boolean forward) {
+        if (!forward) {
+            from += 180;
+            while (from > 360) {
+                from -= 360;
+            }
+            to += 180;
+            while (to > 360) {
+                to -= 360;
+            }
+        }
+        if (getHeading() >= from && getHeading() <= to) {
+            return true;
+        }
+        return false;
+    }
+
+    protected void reverse() {
+        System.out.println("reversing");
+    }
+
+    protected boolean isNearLeftWall() {
+        return getX() <= DISTANCE_FROM_WALLS;
+    }
+
+    protected boolean isNearRightWall() {
+        return getX() >= getBattleFieldWidth() - DISTANCE_FROM_WALLS;
+    }
+
+    protected boolean isNearTopWall() {
+        return getY() >= getBattleFieldHeight() - DISTANCE_FROM_WALLS;
+    }
+
+    protected boolean isNearBottomWall() {
+        return getX() <= getBattleFieldHeight() - DISTANCE_FROM_WALLS;
+    }
+
+    protected void setTeamTarget(RobotReference reference) {
+        this.teamTarget = reference;
+    }
+
+    @Override
+    public void onRobotDeath(RobotDeathEvent event) {
+        super.onRobotDeath(event);
+        String name = event.getName();
+        if (teamTarget.getName().equals(name)) {
+            teamTarget = null;
+        }
+        robots.remove(name);
     }
 }
