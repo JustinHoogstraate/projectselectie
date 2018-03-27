@@ -34,7 +34,7 @@ public class TargetLeader extends HybridAttackBase {
 
     private void doDodge() {
         if (shouldDoDodge && dodgeAroundLocation != null) {
-            double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing();
+            double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing() + 90;
             double relativeDodgeAngle = dodgeAngle - getHeading();
             while (relativeDodgeAngle >= 360) {
                 relativeDodgeAngle -= 360;
