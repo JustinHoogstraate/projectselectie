@@ -3,6 +3,7 @@ package hybridattack.Generic;
 import robocode.*;
 import robocode.exception.RobotException;
 import robocode.MessageEvent;
+import robocode.RobotDeathEvent;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 
