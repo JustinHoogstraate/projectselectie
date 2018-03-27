@@ -3,8 +3,6 @@ package hybridattack.charger;
 import hybridattack.Generic.RobotReference;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
-import robocode.ScannedRobotEvent;
-
 import java.util.ArrayList;
 
 public class Charger extends HybridAttackBase {
@@ -38,7 +36,7 @@ public class Charger extends HybridAttackBase {
             else{
                 //shoot on teamtarget
             }
-            
+
 
         }
 
