@@ -1,10 +1,8 @@
 package hybridattack.Generic;
 
 import robocode.MessageEvent;
-import robocode.Robot;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
-import robocode.exception.RobotException;
 
 import java.util.ArrayList;
 import java.io.IOException;
@@ -107,6 +105,7 @@ public abstract class HybridAttackBase extends TeamRobot {
                     e.printStackTrace();
                 }
             }
+            previousEnergyMap.put(steve.getName(), steve.getEnergy());
         }
 
     }
