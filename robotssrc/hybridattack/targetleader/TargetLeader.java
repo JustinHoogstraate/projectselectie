@@ -18,7 +18,13 @@ public class TargetLeader extends HybridAttackBase {
     public void run() {
         while (true) {
             doDodge();
+            if(teamTarget != null) {
+                pointGunToVector(teamTarget.getLocation());
+            }
+            System.out.println(teamTarget);
             super.run();
+            double firepower = Math.min(400/Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
+            fire(firepower);
         }
     }
 

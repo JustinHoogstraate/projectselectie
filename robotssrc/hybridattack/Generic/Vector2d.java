@@ -104,4 +104,10 @@ public class Vector2d implements Serializable {
         bearing += angle;
         return Vector2d.getFromBearingAndDistance(bearing, length);
     }
+
+    public static double getDistanceTo(Vector2d vector1, Vector2d vector2){
+        double deltaX = vector1.getX() - vector2.getX();
+        double deltaY = vector1.getY() - vector2.getY();
+        return Math.sqrt((deltaX * deltaX) + (deltaY + deltaY));
+    }
 }
