@@ -56,7 +56,6 @@ public class Charger extends HybridAttackBase {
     public void attack(RobotReference target) {
         if (target != null) {
             double headingToEnemy = target.getHeading();
-            TurnToVec
             turnRight(headingToEnemy);
             ahead(500);
         }
