@@ -77,7 +77,6 @@ public abstract class HybridAttackBase extends TeamRobot {
         boolean isTeammate = isTeammate(name);
         double energy = event.getEnergy();
 
-
         RobotReference steve;
 
         if (robots.containsKey(name)) {
@@ -93,17 +92,12 @@ public abstract class HybridAttackBase extends TeamRobot {
         try {
             broadcastMessage(new UpdateRobotMessage(steve));
         } catch (IOException ioe) {
+            ; //ignore
         }
 
         if(!steve.isTeammate()) {
             if (enemyHasFired(steve)) {
-                //broadcast message
-                EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
-                try {
-                    broadcastMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onEnemyFired(steve.getLocation());
             }
             previousEnergyMap.put(steve.getName(), steve.getEnergy());
         }
@@ -142,5 +136,17 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    protected void onEnemyFired(Vector2d location) {
+        //broadcast message
+        EnemyFiredMessage message = new EnemyFiredMessage(location);
+        try {
+            broadcastMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    protected Vector2d getLocation() {
+        return new Vector2d(getX(), getY());
+    }
 }

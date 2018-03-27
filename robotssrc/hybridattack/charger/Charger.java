@@ -8,33 +8,14 @@ import robocode.ScannedRobotEvent;
 import java.util.ArrayList;
 
 public class Charger extends HybridAttackBase {
-
+    private int direction;
     @Override
     public void run() {
-        ArrayList<RobotReference> enemies;
-        RobotReference lowestHealth = null;
+
+
         while (true) {
             super.run();
-            enemies = getEnemies();
-            if (enemies.size() > 1 && getTeam().size() > 1) {
-                for (RobotReference enemy : enemies) {
-                    if (lowestHealth == null || enemy.getEnergy() < lowestHealth.getEnergy()) {
-                        if (enemy != teamTarget) {
-                            lowestHealth = enemy;
-                        }
-                        if (!lowestHealth.isTeammate()) {
-                            turnLeft(lowestHealth.getLocation().subtract(location).getWorldBearing() + getHeading());
-                            ahead(500);
-
-                    }
-
-                    }
-
-                }
-
-
-            }
-
+            turnRight(5 * direction);
         }
     }
 
@@ -46,6 +27,13 @@ public class Charger extends HybridAttackBase {
     * */
 
 
+
+    public void killDouweBot(){
+        ArrayList<RobotReference> enemies = getEnemies();
+        RobotReference lowestHealth = null;
+
+
+    }
     /*
     On hit, Fire and hit him again
     We want to kill the robot bij hitting him for additional bonus points.
@@ -54,25 +42,30 @@ public class Charger extends HybridAttackBase {
 
     public void onHitRobot(HitRobotEvent e) {
 
-        if (!isTeammate(e.getName())) {
-
-            if (e.getEnergy() > 16) {
-                fire(3);
-            } else if (e.getEnergy() > 13) {
-                fire(2.5);
-            } else if (e.getEnergy() > 10) {
-                fire(2);
-            } else if (e.getEnergy() > 7) {
-                fire(1.5);
-            } else if (e.getEnergy() > 4) {
-                fire(1);
-            } else if (e.getEnergy() > 2) {
-                fire(.5);
-            } else if (e.getEnergy() > .6) {
-                fire(.1);
-            }
-            ahead(50);
+        if(e.getBearing() > 0 ){
+            direction = 1;
+        } else {
+            direction = -1;
         }
+        turnRight(e.getBearing());
+
+        if (e.getEnergy() > 16) {
+            fire(3);
+        } else if (e.getEnergy() > 13) {
+            fire(2.5);
+        } else if (e.getEnergy() > 10) {
+            fire(2);
+        } else if (e.getEnergy() > 7) {
+            fire(1.5);
+        } else if (e.getEnergy() > 4) {
+            fire(1);
+        } else if (e.getEnergy() > 2) {
+            fire(.5);
+        } else if (e.getEnergy() > .6) {
+            fire(.1);
+        }
+        ahead(50);
+
 
     }
 }
