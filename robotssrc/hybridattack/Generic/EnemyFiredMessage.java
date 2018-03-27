@@ -8,4 +8,8 @@ public class EnemyFiredMessage implements Serializable {
     public EnemyFiredMessage(Vector2d firedFromLocation) {
         this.firedFromLocation = firedFromLocation;
     }
+
+    public Vector2d getFiredFromLocation() {
+        return firedFromLocation;
+    }
 }

@@ -2,6 +2,9 @@ package hybridattack.Generic;
 
 import robocode.*;
 import robocode.exception.RobotException;
+import robocode.MessageEvent;
+import robocode.ScannedRobotEvent;
+import robocode.TeamRobot;
 
 import java.util.ArrayList;
 import java.io.IOException;
@@ -100,14 +103,9 @@ public abstract class HybridAttackBase extends TeamRobot {
             }
 
             if (enemyHasFired(steve)) {
-                //broadcast message
-                EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
-                try {
-                    broadcastMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onEnemyFired(steve.getLocation());
             }
+            previousEnergyMap.put(steve.getName(), steve.getEnergy());
         }
 
 
@@ -145,6 +143,15 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    protected void onEnemyFired(Vector2d location) {
+        //broadcast message
+        EnemyFiredMessage message = new EnemyFiredMessage(location);
+        try {
+            broadcastMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
