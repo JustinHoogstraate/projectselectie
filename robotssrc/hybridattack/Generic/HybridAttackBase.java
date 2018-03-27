@@ -97,13 +97,15 @@ public abstract class HybridAttackBase extends TeamRobot {
         } catch (IOException ioe) {
         }
 
-        if(enemyHasFired(steve)){
-            //broadcast message
-            EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
-            try {
-                broadcastMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(!steve.isTeammate()) {
+            if (enemyHasFired(steve)) {
+                //broadcast message
+                EnemyFiredMessage message = new EnemyFiredMessage(steve.getLocation());
+                try {
+                    broadcastMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
