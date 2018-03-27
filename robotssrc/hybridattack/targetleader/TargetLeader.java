@@ -42,6 +42,9 @@ public class TargetLeader extends HybridAttackBase {
         if (shouldDoDodge && dodgeAroundLocation != null) {
             double dodgeAngle = getLocation().subtract(dodgeAroundLocation).getWorldBearing();
             double relativeDodgeAngle = dodgeAngle - getHeading();
+            while (relativeDodgeAngle >= 360) {
+                relativeDodgeAngle -= 360;
+            }
 
             if (relativeDodgeAngle > 0) {
                 setTurnRight(relativeDodgeAngle);
@@ -49,7 +52,8 @@ public class TargetLeader extends HybridAttackBase {
                 setTurnLeft(Math.abs(relativeDodgeAngle));
             }
 
-            boolean forward = (int) (Math.random() * 100) % 2 == 1;
+            boolean forward = true;//(int)(Math.random() * 100) % 2 == 1;
+
             if (forward) {
                 setAhead(100);
             } else {
