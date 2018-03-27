@@ -120,21 +120,21 @@ public abstract class HybridAttackBase extends TeamRobot {
                 setTeamTarget(steve);
             }
 
-        if (!steve.isTeammate()) {
-            if (enemyHasFired(steve)) {
-                onEnemyFired(steve.getLocation());
+            if (!steve.isTeammate()) {
+                if (enemyHasFired(steve)) {
+                    onEnemyFired(steve.getLocation());
+                }
+                previousEnergyMap.put(steve.getName(), steve.getEnergy());
             }
-            previousEnergyMap.put(steve.getName(), steve.getEnergy());
+
         }
-
-
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
-        if (message instanceof SetTargetMessage){
-            RobotReference target = ((SetTargetMessage)message).getTarget();
+        if (message instanceof SetTargetMessage) {
+            RobotReference target = ((SetTargetMessage) message).getTarget();
             setTeamTarget(target);
         }
     }
@@ -207,9 +207,13 @@ public abstract class HybridAttackBase extends TeamRobot {
     private boolean headingInRange(int from, int to, boolean forward) {
         if (!forward) {
             from += 180;
-            while (from > 360) { from -= 360; }
+            while (from > 360) {
+                from -= 360;
+            }
             to += 180;
-            while (to > 360) { to -= 360; }
+            while (to > 360) {
+                to -= 360;
+            }
         }
         if (getHeading() >= from && getHeading() <= to) {
             return true;
