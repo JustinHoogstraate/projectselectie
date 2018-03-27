@@ -6,3 +6,6 @@
 *.database
 *.class
 *.class
+.idea/workspace.xml
+*.xml
+.idea/workspace.xml
