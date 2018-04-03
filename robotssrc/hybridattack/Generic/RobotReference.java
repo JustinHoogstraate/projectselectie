@@ -87,20 +87,6 @@ public class RobotReference implements Serializable {
         this.heading = heading;
     }
 
-    /**
-     * Returns the angle from the given location to this robot, in degrees. Angle is absolute; 0 = global up, 90 = global right, and so on.
-     * @param fromLocation The location from which to determine the angle to this robot.
-     * @return The angle from the given location to this robot. Value is between 0 (inclusive) and 360 (exclusive).
-     */
-    public double getBearingTo(Vector2d fromLocation) {
-        Vector2d relativeLocation = this.location.subtract(fromLocation);
-        double angle = relativeLocation.getWorldBearing();
-        while (angle >= 360) {
-            angle -= 360;
-        }
-        return angle;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RobotReference) {
