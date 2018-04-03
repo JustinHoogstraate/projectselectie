@@ -1,6 +1,7 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
+import robocode.BulletMissedEvent;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
 import robocode.ScannedRobotEvent;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
+    private RobotReference target = null;
 
     @Override
     public void run() {
@@ -17,6 +19,9 @@ public class Charger extends HybridAttackBase {
 
             setChargerTarget();
             attack(chargerTarget);
+            if(target != null){
+                pointGunToVector(target.getLocation());
+            }
             super.run();
 
 
@@ -25,9 +30,7 @@ public class Charger extends HybridAttackBase {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
-
-        super.onScannedRobot(event);
-
+      super.onScannedRobot(event);
     }
 
     /* TODO
@@ -71,14 +74,24 @@ public class Charger extends HybridAttackBase {
      */
 
 
-    public void onHitRobot(HitRobotEvent e) {
-        RobotReference target = robots.get(e.getName());
-        pointGunToVector(target.getLocation());
-        if (!isTeammate(e.getName())) {
-            fire(3);
-            ahead(60);
-        }
+    public void onBulletMissed(BulletMissedEvent event) {
+        pointGunToVector(chargerTarget.getLocation());
+    }
 
+    public void onHitRobot(HitRobotEvent e) {
+        
+        target = robots.get(e.getName());
+
+
+        if (!isTeammate(e.getName())) {
+            if(getGunTurnRemaining() == 0) {
+                fire(3);
+
+                ahead(60);
+            }
+        }else { //
+
+        }
 
     }
 }
