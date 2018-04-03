@@ -40,7 +40,7 @@ public class Charger extends HybridAttackBase {
     * */
 
     public void setChargerTarget() {
-        if(getEnemies().size() > 0 ) {
+        if (getEnemies().size() > 0) {
             ArrayList<RobotReference> enemies = getEnemies();
             if (chargerTarget == null && teamTarget != null) {
                 for (RobotReference enemy : enemies) {
@@ -56,11 +56,12 @@ public class Charger extends HybridAttackBase {
 
     public void attack(RobotReference target) {
         if (target != null) {
+
 //            double headingToEnemy = target.getBearingTo(getLocation());
 //            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
-            setAhead(50);
-            fire(1);
+            setAhead(100);
+
         }
     }
 
@@ -74,9 +75,7 @@ public class Charger extends HybridAttackBase {
 
 
     public void onHitRobot(HitRobotEvent e) {
-        if(!isTeammate(e.getName())) {
-
-
+        if (!isTeammate(e.getName())) {
             fire(3);
             ahead(60);
         }
