@@ -68,9 +68,6 @@ public class Charger extends HybridAttackBase {
 
     public void attack(RobotReference target) {
         if (target != null) {
-
-//            double headingToEnemy = target.getBearingTo(getLocation());
-//            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
             pointGunToVector(target.getLocation());
             setAhead(60);
@@ -103,7 +100,7 @@ public class Charger extends HybridAttackBase {
 
         if(hitRobot.isTeammate()){
             setTurnRight(90);
-            setAhead(200);
+            setAhead(400);
             setChargerTarget();
         }
     }
@@ -120,11 +117,13 @@ public class Charger extends HybridAttackBase {
 
 
         } else {
-            setAhead(-1000);
+            turnRight(90);
+            setAhead(1000);
             setChargerTarget();
         }
         if (missed){
             pointGunToVector(target.getLocation());
+            fire(3);
         }
     }
 }
