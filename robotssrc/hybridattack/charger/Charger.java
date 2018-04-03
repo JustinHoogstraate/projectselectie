@@ -1,6 +1,7 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
+import robocode.BulletMissedEvent;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
 import robocode.ScannedRobotEvent;
@@ -8,17 +9,30 @@ import robocode.ScannedRobotEvent;
 import java.util.ArrayList;
 
 public class Charger extends HybridAttackBase {
-    private int direction;
+    private RobotReference chargerTarget = null;
+    private RobotReference target = null;
+    private boolean missed = false;
+
     @Override
     public void run() {
 
-
         while (true) {
+
+            setChargerTarget();
+            attack(chargerTarget);
+            if(chargerTarget != null){
+                pointGunToVector(chargerTarget.getLocation());
+            }
             super.run();
-            turnRight(5 * direction);
+
+
         }
     }
 
+    @Override
+    public void onScannedRobot(ScannedRobotEvent event) {
+      super.onScannedRobot(event);
+    }
 
     /* TODO
     * Locking taget with low health
@@ -26,59 +40,68 @@ public class Charger extends HybridAttackBase {
     *
     * */
 
+    public void setChargerTarget() {
+        if (getEnemies().size() > 0) {
+            ArrayList<RobotReference> enemies = getEnemies();
+            if (chargerTarget == null && teamTarget != null) {
+                for (RobotReference enemy : enemies) {
+                    if (enemy != teamTarget) {
+                        chargerTarget = enemy;
+                    }
+                }
+            } else {
+                chargerTarget = enemies.get(0);
+            }
+        }
+    }
+
+    public void attack(RobotReference target) {
+        if (target != null) {
+
+//            double headingToEnemy = target.getBearingTo(getLocation());
+//            turnRight(headingToEnemy - getHeading());
+            turnToVector(target.getLocation());
+            pointGunToVector(target.getLocation());
+            setAhead(50);
+            fire(3);
 
 
-    public void killDouweBot(){
-        ArrayList<RobotReference> enemies = getEnemies();
-        RobotReference lowestHealth = enemies.get(0);
-        for(RobotReference enemy: enemies) {
-            if(enemy.getEnergy() < lowestHealth.getEnergy() && !enemy.isTeammate() && enemy != teamTarget){
-                lowestHealth = enemy;
-            }
-            else{
-                //shoot on teamtarget
-            }
-            
+
+
 
         }
-
-
-
-
-
     }
+
+
+
     /*
     On hit, Fire and hit him again
-    We want to kill the robot bij hitting him for additional bonus points.
+    We want to kill the robot by hitting him for additional bonus points.
     Bullet damage = 4 * firepower. If firepower > 1, it does an additional damage = 2 * (power - 1).
      */
 
+
+    public void onBulletMissed(BulletMissedEvent event) {
+        pointGunToVector(chargerTarget.getLocation());
+        missed = true;
+    }
+
     public void onHitRobot(HitRobotEvent e) {
 
-        if(e.getBearing() > 0 ){
-            direction = 1;
-        } else {
-            direction = -1;
+        target = robots.get(e.getName());
+
+
+        if (!isTeammate(e.getName())) {
+            if(getGunTurnRemaining() == 0) {
+
+//                fire(3);
+//                ahead(60);
+            }
+        }else { //
+
         }
-        turnRight(e.getBearing());
-
-        if (e.getEnergy() > 16) {
-            fire(3);
-        } else if (e.getEnergy() > 13) {
-            fire(2.5);
-        } else if (e.getEnergy() > 10) {
-            fire(2);
-        } else if (e.getEnergy() > 7) {
-            fire(1.5);
-        } else if (e.getEnergy() > 4) {
-            fire(1);
-        } else if (e.getEnergy() > 2) {
-            fire(.5);
-        } else if (e.getEnergy() > .6) {
-            fire(.1);
+        if (missed){
+            pointGunToVector(target.getLocation());
         }
-        ahead(50);
-
-
     }
 }

@@ -1,0 +1,6 @@
+#Robocode robot team
+#Tue Apr 03 09:44:29 CEST 2018
+team.members=hybridattack.charger.Charger*,hybridattack.charger.Charger*,hybridattack.targetleader.TargetLeader*,hybridattack.targetleader.TargetLeader*
+team.author.name=Team1
+robocode.version=1.9.3.0
+team.description=2 cchargers, 2 target leaders.

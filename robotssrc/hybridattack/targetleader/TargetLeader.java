@@ -86,6 +86,17 @@ public class TargetLeader extends HybridAttackBase {
         }
     }
 
+    private void targetLeading() {
+        System.out.println(teamTarget.getName());
+        Vector2d velocity = teamTarget.getVelocity();
+        Vector2d currentLocation = teamTarget.getLocation();
+        double predictionX = currentLocation.getX() + 3 * velocity.getX()/* * Math.sin(Math.toRadians(teamTarget.getHeading()))*/;
+        double predictionY = currentLocation.getY() + 3 * velocity.getY()/* * Math.cos(Math.toRadians(teamTarget.getHeading()))*/;
+        Vector2d prediction = new Vector2d(predictionX, predictionY);
+        pointGunToVector(prediction);
+    }
+}
+
     private void preventFromRammingObstacle(int obstacle/*, boolean forward*/) {
         Vector2d velocity = getVelocity2d();
         //int mult = (forward) ? 1 : -1;
