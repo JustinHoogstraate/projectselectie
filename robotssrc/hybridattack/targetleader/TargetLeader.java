@@ -132,7 +132,9 @@ public class TargetLeader extends HybridAttackBase {
                 }
                 break;
             case NEAR_ROBOT:
-                desiredVelocity = desiredVelocity.rotate(90);
+                if (desiredVelocity.vectorLength() > 0) {
+                    desiredVelocity = desiredVelocity.rotate(45);
+                }
                 break;
             default:
                 break;

@@ -259,6 +259,6 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     protected boolean isNearRobot(RobotReference ref) {
-        return ref.getLocation().subtract(getLocation()).vectorLength() < DISTANCE_FROM_WALLS;
+        return ref.getLocation().subtract(getLocation()).vectorLength() < 200;
     }
 }
