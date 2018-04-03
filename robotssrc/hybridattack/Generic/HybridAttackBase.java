@@ -11,8 +11,15 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class HybridAttackBase extends TeamRobot {
+    protected final int TOP_WALL = 0;
+    protected final int RIGHT_WALL = 1;
+    protected final int BOTTOM_WALL = 2;
+    protected final int LEFT_WALL = 3;
+    protected final int NEAR_ROBOT = 4;
+
     protected Vector2d location;
 
     protected HashMap<String, RobotReference> robots = new HashMap();
@@ -20,7 +27,7 @@ public abstract class HybridAttackBase extends TeamRobot {
 
     private HashMap<String, Double> previousEnergyMap = new HashMap<>();
 
-    protected final int DISTANCE_FROM_WALLS = 100;
+    protected final int DISTANCE_FROM_WALLS = 50;
 
     protected boolean forward = false;
 
@@ -56,24 +63,9 @@ public abstract class HybridAttackBase extends TeamRobot {
 
         updateLocation();
 
-        forward = getVelocity() > 0;
-
-        if (isNearTopWall()) {
-            onNearWall(0);
-        }
-        if (isNearRightWall()) {
-            onNearWall(1);
-        }
-        if (isNearBottomWall()) {
-            onNearWall(2);
-        }
-        if (isNearLeftWall()) {
-            onNearWall(3);
-        }
-
-        while (getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
-            execute();
-        }
+        //while (getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
+        execute();
+        //}
     }
 
     private void updateLocation() {
@@ -114,7 +106,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         try {
             broadcastMessage(new UpdateRobotMessage(steve));
         } catch (IOException ioe) {
-             //ignore
+            //ignore
         }
 
         if (!steve.isTeammate()) {
@@ -167,17 +159,18 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
-    protected void pointGunToVector(Vector2d vector){
-        Vector2d relativeLocation = location.subtract(vector);
+    protected void pointGunToVector(Vector2d vector) {
+        setAdjustGunForRobotTurn(true);
+        Vector2d relativeLocation = vector.subtract(location);
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getGunHeading();
-        if (localHeading > 180) {
+        while (localHeading > 180) {
             localHeading -= 360;
         }
         if (localHeading > 0) {
             turnGunRight(localHeading);
         } else if (localHeading < 0) {
-            turnGunLeft(localHeading * -1);
+            turnGunLeft(Math.abs(localHeading));
         }
     }
 
@@ -195,57 +188,13 @@ public abstract class HybridAttackBase extends TeamRobot {
         return new Vector2d(getX(), getY());
     }
 
-    private void onNearWall(int wall) {
-        switch (wall) {
-            case 0:
-                if (headingInRange(270, 90, forward)) {
-                    reverse();
-                }
-                break;
-            case 1:
-                if (headingInRange(0, 180, forward)) {
-                    reverse();
-                }
-                break;
-            case 2:
-                if (headingInRange(90, 270, forward)) {
-                    reverse();
-                }
-                break;
-            case 3:
-                if (headingInRange(180, 360, forward)) {
-                    reverse();
-                }
-                break;
-        }
-    }
-
-    private boolean headingInRange(int from, int to, boolean forward) {
-        if (!forward) {
-            from += 180;
-            while (from > 360) {
-                from -= 360;
-            }
-            to += 180;
-            while (to > 360) {
-                to -= 360;
-            }
-        }
-        if (to < from) {
-            if (getHeading() >= from || getHeading() <= to) {
-                return true;
-            }
-        }
-        else {
-            if (getHeading() >= from && getHeading() <= to) {
-                return true;
-            }
-        }
-        return false;
+    protected Vector2d getVelocity2d() {
+        return Vector2d.getFromBearingAndDistance(getHeading(), 100);
     }
 
     protected void reverse() {
         System.out.println("reversing");
+        forward = !forward;
     }
 
     protected boolean isNearLeftWall() {
@@ -261,7 +210,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     protected boolean isNearBottomWall() {
-        return getX() <= getBattleFieldHeight() - DISTANCE_FROM_WALLS;
+        return getY() <= DISTANCE_FROM_WALLS;
     }
 
     protected void setTeamTarget(RobotReference reference) {
@@ -276,5 +225,40 @@ public abstract class HybridAttackBase extends TeamRobot {
             teamTarget = null;
         }
         robots.remove(name);
+    }
+
+    /**
+     * Returns the walls that we are close to.
+     *
+     * @return
+     */
+    protected List<Integer> getNearbyObstacles() {
+        List<Integer> result = new ArrayList();
+
+        for (String ref : robots.keySet()) {
+            if (isNearRobot(robots.get(ref))) {
+                result.add(NEAR_ROBOT);
+            }
+        }
+
+        if (isNearTopWall()) {
+            result.add(TOP_WALL);
+        }
+        if (isNearRightWall()) {
+            result.add(RIGHT_WALL);
+        }
+        if (isNearBottomWall()) {
+            result.add(BOTTOM_WALL);
+        }
+        if (isNearLeftWall()) {
+            result.add(LEFT_WALL);
+        }
+
+
+        return result;
+    }
+
+    protected boolean isNearRobot(RobotReference ref) {
+        return ref.getLocation().subtract(getLocation()).vectorLength() < DISTANCE_FROM_WALLS;
     }
 }

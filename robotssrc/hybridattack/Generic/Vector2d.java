@@ -91,7 +91,7 @@ public class Vector2d implements Serializable {
     }
 
     public double getWorldBearing() {
-        double result = (Math.toDegrees(Math.atan2(y, x)) * -1) - 90;
+        double result = (Math.toDegrees(Math.atan2(x, y)));// * -1) - 90;
         if (result < 0) {
             result += 360;
         }
