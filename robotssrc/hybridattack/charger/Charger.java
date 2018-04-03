@@ -94,8 +94,8 @@ public class Charger extends HybridAttackBase {
         if (!isTeammate(e.getName())) {
             if(getGunTurnRemaining() == 0) {
 
-//                fire(3);
-//                ahead(60);
+                fire(3);
+                ahead(60);
             }
         }else { //
 
