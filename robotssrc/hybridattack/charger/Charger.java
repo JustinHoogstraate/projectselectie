@@ -47,13 +47,18 @@ public class Charger extends HybridAttackBase {
                 for (RobotReference enemy : enemies) {
                     if (enemy != teamTarget) {
                         chargerTarget = enemy;
+                    } else {
+                        chargerTarget = enemies.get(0);
                     }
                 }
-            } else {
-                chargerTarget = enemies.get(0);
+            }
+                else{
+                    chargerTarget = enemies.get(0);
+
             }
         }
     }
+
 
     public void attack(RobotReference target) {
         if (target != null) {
@@ -62,8 +67,8 @@ public class Charger extends HybridAttackBase {
 //            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
             pointGunToVector(target.getLocation());
-            setAhead(-50);
-           // fire(3);
+            setAhead(50);
+           fire(.1);
 
 
 
