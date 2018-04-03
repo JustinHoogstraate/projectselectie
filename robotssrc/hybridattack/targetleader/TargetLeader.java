@@ -95,7 +95,6 @@ public class TargetLeader extends HybridAttackBase {
         Vector2d prediction = new Vector2d(predictionX, predictionY);
         pointGunToVector(prediction);
     }
-}
 
     private void preventFromRammingObstacle(int obstacle/*, boolean forward*/) {
         Vector2d velocity = getVelocity2d();
