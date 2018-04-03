@@ -62,8 +62,8 @@ public class Charger extends HybridAttackBase {
 //            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
             pointGunToVector(target.getLocation());
-            setAhead(50);
-            fire(3);
+            setAhead(-50);
+           // fire(3);
 
 
 
