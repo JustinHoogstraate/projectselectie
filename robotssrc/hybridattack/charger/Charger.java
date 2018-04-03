@@ -18,9 +18,10 @@ public class Charger extends HybridAttackBase {
     public void run() {
 
         while (true) {
-            super.run();
+
             setChargerTarget();
             attack(chargerTarget);
+            super.run();
 
 
         }
@@ -39,7 +40,7 @@ public class Charger extends HybridAttackBase {
     * */
 
     public void setChargerTarget() {
-        if(getEnemies().size() > 0 ) {
+        if (getEnemies().size() > 0) {
             ArrayList<RobotReference> enemies = getEnemies();
             if (chargerTarget == null && teamTarget != null) {
                 for (RobotReference enemy : enemies) {
@@ -55,9 +56,12 @@ public class Charger extends HybridAttackBase {
 
     public void attack(RobotReference target) {
         if (target != null) {
-            double headingToEnemy = target.getHeading();
-            turnRight(headingToEnemy);
-            ahead(500);
+
+//            double headingToEnemy = target.getBearingTo(getLocation());
+//            turnRight(headingToEnemy - getHeading());
+            turnToVector(target.getLocation());
+            setAhead(100);
+
         }
     }
 
@@ -70,28 +74,12 @@ public class Charger extends HybridAttackBase {
      */
 
 
-//    public void onHitRobot(HitRobotEvent e) {
-//        turnRight(e.getBearing());
-//        turnGunRight(e.getBearing());
-//
-//        if (e.getEnergy() > 16) {
-//            fire(3);
-//        } else if (e.getEnergy() > 13) {
-//            fire(2.5);
-//        } else if (e.getEnergy() > 10) {
-//            fire(2);
-//        } else if (e.getEnergy() > 7) {
-//            fire(1.5);
-//        } else if (e.getEnergy() > 4) {
-//            fire(1);
-//        } else if (e.getEnergy() > 2) {
-//            fire(.5);
-//        } else if (e.getEnergy() > .6) {
-//            fire(.1);
-//        }
-//        ahead(60);
-//        turnGunRight(e.getBearing());
+    public void onHitRobot(HitRobotEvent e) {
+        if (!isTeammate(e.getName())) {
+            fire(3);
+            ahead(60);
+        }
 
 
-    //}
+    }
 }
