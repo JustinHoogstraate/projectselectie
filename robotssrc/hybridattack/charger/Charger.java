@@ -1,15 +1,11 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
-import hybridattack.Generic.Vector2d;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
-import robocode.MessageEvent;
 import robocode.ScannedRobotEvent;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
@@ -29,6 +25,7 @@ public class Charger extends HybridAttackBase {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
+
         super.onScannedRobot(event);
 
     }
@@ -69,12 +66,14 @@ public class Charger extends HybridAttackBase {
 
     /*
     On hit, Fire and hit him again
-    We want to kill the robot bij hitting him for additional bonus points.
+    We want to kill the robot by hitting him for additional bonus points.
     Bullet damage = 4 * firepower. If firepower > 1, it does an additional damage = 2 * (power - 1).
      */
 
 
     public void onHitRobot(HitRobotEvent e) {
+        RobotReference target = robots.get(e.getName());
+        pointGunToVector(target.getLocation());
         if (!isTeammate(e.getName())) {
             fire(3);
             ahead(60);
