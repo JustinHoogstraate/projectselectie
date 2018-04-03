@@ -30,7 +30,6 @@ public abstract class HybridAttackBase extends TeamRobot {
     protected boolean forward = false;
 
     public HybridAttackBase() {
-
     }
 
     protected ArrayList<RobotReference> getEnemies() {
