@@ -72,7 +72,8 @@ public class Charger extends HybridAttackBase {
 
 
     public void onHitRobot(HitRobotEvent e) {
-        setTurnGunRight(getGunHeading() - e.getBearing());
+        RobotReference target = robots.get(e.getName());
+        pointGunToVector(target.getLocation());
         if (!isTeammate(e.getName())) {
             fire(3);
             ahead(60);
