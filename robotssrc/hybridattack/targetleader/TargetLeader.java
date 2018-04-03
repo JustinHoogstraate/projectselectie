@@ -5,12 +5,8 @@ import hybridattack.Generic.HybridAttackBase;
 import hybridattack.Generic.SetTargetMessage;
 import hybridattack.Generic.Vector2d;
 import robocode.MessageEvent;
-import samplerobotvanrobin.RobotReference;
 
-import java.io.IOError;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
@@ -26,9 +22,9 @@ public class TargetLeader extends HybridAttackBase {
             doDodge();
             dodgeWalls();
             doMove();
-//            fireAtTarget();
-            super.run();
             fireAtTarget();
+            super.run();
+//            fireAtTarget();
         }
     }
 
@@ -81,18 +77,19 @@ public class TargetLeader extends HybridAttackBase {
 
     private void fireAtTarget() {
         if (teamTarget != null) {
-            targetLeading();
             double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
+//            pointGunToVector(enemyLocation);
+            targetLeading();
+            System.out.println(firepower);
             fire(firepower);
         }
     }
 
     private void targetLeading() {
-        System.out.println(teamTarget.getName());
         Vector2d velocity = teamTarget.getVelocity();
         Vector2d currentLocation = teamTarget.getLocation();
-        double predictionX = currentLocation.getX() + 7 * velocity.getX();
-        double predictionY = currentLocation.getY() + 7 * velocity.getY();
+        double predictionX = currentLocation.getX() + 5 * velocity.getX();
+        double predictionY = currentLocation.getY() + 5 * velocity.getY();
         Vector2d prediction = new Vector2d(predictionX, predictionY);
         pointGunToVector(prediction);
     }
@@ -142,7 +139,7 @@ public class TargetLeader extends HybridAttackBase {
     }
 
     public void onNearObstacle(int obstacle) {
-        System.out.println(obstacle + "");
+//        System.out.println(obstacle + "");
         preventFromRammingObstacle(obstacle);
     }
 

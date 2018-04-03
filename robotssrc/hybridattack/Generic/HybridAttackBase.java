@@ -1,7 +1,5 @@
 package hybridattack.Generic;
 
-import robocode.*;
-import robocode.exception.RobotException;
 import robocode.MessageEvent;
 import robocode.RobotDeathEvent;
 import robocode.ScannedRobotEvent;
@@ -221,10 +219,14 @@ public abstract class HybridAttackBase extends TeamRobot {
     public void onRobotDeath(RobotDeathEvent event) {
         super.onRobotDeath(event);
         String name = event.getName();
-        if (teamTarget.getName().equals(name)) {
-            teamTarget = null;
+        if(teamTarget != null) {
+            if (teamTarget.getName().equals(name)) {
+                teamTarget = null;
+            }
         }
-        robots.remove(name);
+        if(robots.containsKey(name)) {
+            robots.remove(name);
+        }
     }
 
     /**
