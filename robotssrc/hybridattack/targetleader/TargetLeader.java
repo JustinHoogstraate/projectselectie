@@ -24,7 +24,6 @@ public class TargetLeader extends HybridAttackBase {
             doMove();
             fireAtTarget();
             super.run();
-//            fireAtTarget();
         }
     }
 
@@ -78,9 +77,7 @@ public class TargetLeader extends HybridAttackBase {
     private void fireAtTarget() {
         if (teamTarget != null) {
             double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
-//            pointGunToVector(enemyLocation);
             targetLeading();
-            System.out.println(firepower);
             fire(firepower);
         }
     }
