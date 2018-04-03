@@ -69,7 +69,7 @@ public class Charger extends HybridAttackBase {
 
     /*
     On hit, Fire and hit him again
-    We want to kill the robot bij hitting him for additional bonus points.
+    We want to kill the robot by hitting him for additional bonus points.
     Bullet damage = 4 * firepower. If firepower > 1, it does an additional damage = 2 * (power - 1).
      */
 
