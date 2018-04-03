@@ -1,15 +1,14 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
+import hybridattack.Generic.SetTargetMessage;
 import hybridattack.Generic.Vector2d;
-import robocode.BulletHitEvent;
-import robocode.BulletMissedEvent;
-import robocode.HitRobotEvent;
+import robocode.*;
 import hybridattack.Generic.HybridAttackBase;
-import robocode.ScannedRobotEvent;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
@@ -20,10 +19,9 @@ public class Charger extends HybridAttackBase {
     public void run() {
 
         while (true) {
-
             setChargerTarget();
             attack(chargerTarget);
-            if(chargerTarget != null){
+            if (chargerTarget != null) {
                 pointGunToVector(chargerTarget.getLocation());
             }
             super.run();
@@ -34,33 +32,29 @@ public class Charger extends HybridAttackBase {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
-      super.onScannedRobot(event);
+        super.onScannedRobot(event);
     }
 
     /* TODO
-    * Locking taget with low health
-    * locking target which is not a target for other enemies
-    *
-    * */
+     * Locking taget with low health
+     * locking target which is not a target for other enemies
+     *
+     * */
 
     public void setChargerTarget() {
         if (getEnemies().size() > 0) {
-
             ArrayList<RobotReference> enemies = getEnemies();
             RobotReference closestEnemy = enemies.get(0);
-            if (chargerTarget == null && teamTarget != null ) {
+            if (chargerTarget == null && teamTarget != null) {
                 for (RobotReference enemy : enemies) {
-                    if (enemy != teamTarget) {
-                        if(Vector2d.getDistanceTo(closestEnemy.getLocation(), location ) > Vector2d.getDistanceTo(enemy.getLocation(), location))
-                        closestEnemy = enemy;
-
+                    if (!enemy.isTeammate()) {
+                        if (Vector2d.getDistanceTo(closestEnemy.getLocation(), location) > Vector2d.getDistanceTo(enemy.getLocation(), location))
+                            closestEnemy = enemy;
                     }
                 }
                 chargerTarget = closestEnemy;
-            }
-                else{
-                    chargerTarget = enemies.get(0);
-
+            } else {
+                chargerTarget = enemies.get(0);
             }
         }
     }
@@ -72,9 +66,6 @@ public class Charger extends HybridAttackBase {
             pointGunToVector(target.getLocation());
             setAhead(60);
             fire(3);
-
-
-
 
 
         }
@@ -94,11 +85,11 @@ public class Charger extends HybridAttackBase {
         missed = true;
     }
 
-    public void onBulletHit(BulletHitEvent e){
+    public void onBulletHit(BulletHitEvent e) {
         RobotReference hitRobot;
         hitRobot = robots.get(e.getName());
 
-        if(hitRobot.isTeammate()){
+        if (hitRobot.isTeammate()) {
             setTurnRight(90);
             setAhead(400);
             setChargerTarget();
@@ -110,7 +101,7 @@ public class Charger extends HybridAttackBase {
 
         if (!isTeammate(e.getName())) {
             target = robots.get(e.getName());
-            if(getGunTurnRemaining() == 0) {
+            if (getGunTurnRemaining() == 0) {
                 fire(3);
                 ahead(60);
             }
@@ -121,7 +112,7 @@ public class Charger extends HybridAttackBase {
             setAhead(1000);
             setChargerTarget();
         }
-        if (missed){
+        if (missed) {
             pointGunToVector(target.getLocation());
             fire(3);
         }

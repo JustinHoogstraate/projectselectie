@@ -226,6 +226,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
         if(robots.containsKey(name)) {
             robots.remove(name);
+
         }
     }
 
