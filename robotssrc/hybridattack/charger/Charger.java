@@ -1,13 +1,13 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
+import hybridattack.Generic.SetTargetMessage;
 import hybridattack.Generic.Vector2d;
-import robocode.BulletHitEvent;
-import robocode.BulletMissedEvent;
-import robocode.HitRobotEvent;
+import robocode.*;
 import hybridattack.Generic.HybridAttackBase;
-import robocode.ScannedRobotEvent;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Charger extends HybridAttackBase {
@@ -19,7 +19,6 @@ public class Charger extends HybridAttackBase {
     public void run() {
 
         while (true) {
-
             setChargerTarget();
             attack(chargerTarget);
             if (chargerTarget != null) {
@@ -48,10 +47,9 @@ public class Charger extends HybridAttackBase {
             RobotReference closestEnemy = enemies.get(0);
             if (chargerTarget == null && teamTarget != null) {
                 for (RobotReference enemy : enemies) {
-                    if (enemy != teamTarget) {
+                    if (!enemy.isTeammate()) {
                         if (Vector2d.getDistanceTo(closestEnemy.getLocation(), location) > Vector2d.getDistanceTo(enemy.getLocation(), location))
                             closestEnemy = enemy;
-
                     }
                 }
                 chargerTarget = closestEnemy;
@@ -68,6 +66,8 @@ public class Charger extends HybridAttackBase {
             pointGunToVector(target.getLocation());
             setAhead(60);
             fire(3);
+
+
         }
     }
 
