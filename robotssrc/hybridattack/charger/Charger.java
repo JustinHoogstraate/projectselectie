@@ -1,15 +1,11 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
-import hybridattack.Generic.Vector2d;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
-import robocode.MessageEvent;
 import robocode.ScannedRobotEvent;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
@@ -29,6 +25,7 @@ public class Charger extends HybridAttackBase {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
+
         super.onScannedRobot(event);
 
     }
@@ -75,6 +72,7 @@ public class Charger extends HybridAttackBase {
 
 
     public void onHitRobot(HitRobotEvent e) {
+        setTurnGunRight(getGunHeading() - e.getBearing());
         if (!isTeammate(e.getName())) {
             fire(3);
             ahead(60);
