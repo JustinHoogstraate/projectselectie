@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
     private RobotReference target = null;
+    private boolean missed = false;
 
     @Override
     public void run() {
@@ -19,8 +20,8 @@ public class Charger extends HybridAttackBase {
 
             setChargerTarget();
             attack(chargerTarget);
-            if(target != null){
-                pointGunToVector(target.getLocation());
+            if(chargerTarget != null){
+                pointGunToVector(chargerTarget.getLocation());
             }
             super.run();
 
@@ -60,7 +61,13 @@ public class Charger extends HybridAttackBase {
 //            double headingToEnemy = target.getBearingTo(getLocation());
 //            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
-            setAhead(100);
+            pointGunToVector(target.getLocation());
+            setAhead(50);
+            fire(3);
+
+
+
+
 
         }
     }
@@ -76,22 +83,25 @@ public class Charger extends HybridAttackBase {
 
     public void onBulletMissed(BulletMissedEvent event) {
         pointGunToVector(chargerTarget.getLocation());
+        missed = true;
     }
 
     public void onHitRobot(HitRobotEvent e) {
-        
+
         target = robots.get(e.getName());
 
 
         if (!isTeammate(e.getName())) {
             if(getGunTurnRemaining() == 0) {
-                fire(3);
 
-                ahead(60);
+//                fire(3);
+//                ahead(60);
             }
         }else { //
 
         }
-
+        if (missed){
+            pointGunToVector(target.getLocation());
+        }
     }
 }
