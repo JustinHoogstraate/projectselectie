@@ -1,9 +1,6 @@
 package hybridattack.targetleader;
 
-import hybridattack.Generic.EnemyFiredMessage;
-import hybridattack.Generic.HybridAttackBase;
-import hybridattack.Generic.SetTargetMessage;
-import hybridattack.Generic.Vector2d;
+import hybridattack.Generic.*;
 import robocode.MessageEvent;
 import samplerobotvanrobin.RobotReference;
 
@@ -17,46 +14,112 @@ public class TargetLeader extends HybridAttackBase {
     private Vector2d dodgeAroundLocation = null;
 
     private final int PREFERRED_ENEMY_DISTANCE = 200;
+    private final int TARGET_LOCATION_MARGIN = 30;
 
     protected Vector2d desiredVelocity = new Vector2d(0, 0);
+    protected Vector2d targetLocation = null;
+
+    private boolean isAtTargetLocation() {
+        if (targetLocation != null &&
+                getLocation().subtract(targetLocation).vectorLength() <= TARGET_LOCATION_MARGIN) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public TargetLeader() {
+        super();
+    }
+
+    private void setTargetLocation(int x, int y) {
+        if (targetLocation == null || targetLocation.getX() != x || targetLocation.getY() != y) {
+            System.out.println("Setting target location to " + x + ", " + y);
+            this.targetLocation = new Vector2d(x, y);
+            try {
+                broadcastMessage(new SetTargetLocationMessage(x, y));
+            } catch (IOException ex) {
+                ; //ignore
+            }
+        }
+    }
 
     @Override
     public void run() {
+        if (targetLocation == null) {
+            int x = (int) (getBattleFieldWidth() * 0.25);
+            int y = (int) (getBattleFieldHeight() * 0.5);
+            setTargetLocation(x, y);
+        }
         while (true) {
             doDodge();
-            dodgeWalls();
-            doMove();
+            //dodgeWalls();
+            //doMove();
             fireAtTarget();
             super.run();
-            fireAtTarget();
         }
     }
 
     @Override
     public void onMessageReceived(MessageEvent event) {
         super.onMessageReceived(event);
-        if (event.getMessage() instanceof EnemyFiredMessage) {
-            EnemyFiredMessage message = (EnemyFiredMessage) event.getMessage();
-            dodgeAroundLocation = message.getFiredFromLocation();
-            shouldDoDodge = true;
+        if (!event.getSender().equals(getName())) {
+            if (event.getMessage() instanceof EnemyFiredMessage) {
+                EnemyFiredMessage message = (EnemyFiredMessage) event.getMessage();
+                dodgeAroundLocation = message.getFiredFromLocation();
+                shouldDoDodge = true;
+            } else if (event.getMessage() instanceof SetTargetLocationMessage) {
+                if (event.getSender().compareTo(getName()) > 0) {
+                    SetTargetLocationMessage message = (SetTargetLocationMessage) event.getMessage();
+                    int targetX = (int) (getBattleFieldWidth() - message.getX());
+                    setTargetLocation(targetX, (int) (getBattleFieldHeight() / 2));
+                }
+            }
         }
     }
 
     private void doDodge() {
-        if (shouldDoDodge && dodgeAroundLocation != null) {
-            Vector2d delta = dodgeAroundLocation.subtract(getLocation());
-            double dodgeAngle = delta.getWorldBearing() + 90;
+        if (shouldDoDodge && dodgeAroundLocation != null && getDistanceRemaining() == 0) {
+            Vector2d delta = null;
+            double dodgeAngle = 0.0;
+
+            if (isAtTargetLocation()) {
+                delta = dodgeAroundLocation.subtract(getLocation());
+                setBack(delta.vectorLength());
+            } else {
+                delta = targetLocation.subtract(getLocation());
+                setAhead(100);
+            }
+
+            dodgeAngle = delta.getWorldBearing();
+            dodgeAngle -= getHeading();
+
+            while(dodgeAngle > 180) {
+                dodgeAngle -= 360;
+            }
+
+            if (dodgeAngle > 0) {
+                setTurnRight(dodgeAngle);
+            }
+            else if (dodgeAngle < 0) {
+                setTurnLeft(Math.abs(dodgeAngle));
+            }
+
+            /*
             if (delta.vectorLength() > PREFERRED_ENEMY_DISTANCE) {
                 dodgeAngle -= 20;
             }
             else if (delta.vectorLength() < PREFERRED_ENEMY_DISTANCE) {
                 dodgeAngle += 20;
             }
+            */
 
+            /*
             while (dodgeAngle > 360) {
                 dodgeAngle -= 360;
             }
             desiredVelocity = Vector2d.getFromBearingAndDistance(dodgeAngle, 100);
+            */
         }
     }
 
@@ -97,7 +160,8 @@ public class TargetLeader extends HybridAttackBase {
         pointGunToVector(prediction);
     }
 
-    private void preventFromRammingObstacle(int obstacle/*, boolean forward*/) {
+    /*
+    private void preventFromRammingObstacle(int obstacle) {
         Vector2d velocity = getVelocity2d();
         //int mult = (forward) ? 1 : -1;
         switch (obstacle) {
@@ -145,25 +209,15 @@ public class TargetLeader extends HybridAttackBase {
         System.out.println(obstacle + "");
         preventFromRammingObstacle(obstacle);
     }
-
+*/
     /**
      * Moves the robot at the current desiredVelocity.
-     */
+     *//*
     protected void doMove() {
         if (desiredVelocity.vectorLength() > 0) {
             double bearing = desiredVelocity.getWorldBearing();
             double heading = getHeading();
             double relativeDodgeAngle = bearing - getHeading();
-/*
-            if (relativeDodgeAngle < 90 && relativeDodgeAngle > -90) {
-                //forward = true;
-            } else {
-                //forward = false;
-                relativeDodgeAngle += 180;
-                if (relativeDodgeAngle >= 180) {
-                    relativeDodgeAngle -= 360;
-                }
-            }*/
 
             if (relativeDodgeAngle > 0) {
                 setTurnRight(relativeDodgeAngle);
@@ -172,23 +226,22 @@ public class TargetLeader extends HybridAttackBase {
             }
 
             if (shouldDoDodge) {
-                setAhead(100);
-                /*if (forward) {
+                if (forward) {
                     setAhead(100);
                 } else {
                     setBack(100);
-                }*/
+                }
                 shouldDoDodge = false;
             }
         }
     }
-
+*/
     /**
      * Attempts to move away from any nearby walls.
-     */
+     *//*
     private void dodgeWalls() {
         for (int wall : getNearbyObstacles()) {
             onNearObstacle(wall);
         }
-    }
+    }*/
 }
