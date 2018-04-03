@@ -1,12 +1,15 @@
 package hybridattack.charger;
 
 import hybridattack.Generic.RobotReference;
+import hybridattack.Generic.Vector2d;
+import robocode.BulletHitEvent;
 import robocode.BulletMissedEvent;
 import robocode.HitRobotEvent;
 import hybridattack.Generic.HybridAttackBase;
 import robocode.ScannedRobotEvent;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Charger extends HybridAttackBase {
     private RobotReference chargerTarget = null;
@@ -42,15 +45,18 @@ public class Charger extends HybridAttackBase {
 
     public void setChargerTarget() {
         if (getEnemies().size() > 0) {
+
             ArrayList<RobotReference> enemies = getEnemies();
-            if (chargerTarget == null && teamTarget != null) {
+            RobotReference closeEnemie = enemies.get(0);
+            if (chargerTarget == null && teamTarget != null ) {
                 for (RobotReference enemy : enemies) {
                     if (enemy != teamTarget) {
-                        chargerTarget = enemy;
-                    } else {
-                        chargerTarget = enemies.get(0);
+                        if(Vector2d.getDistanceTo(closeEnemie.getLocation(), location ) > Vector2d.getDistanceTo(enemy.getLocation(), location))
+                        closeEnemie = enemy;
+
                     }
                 }
+                chargerTarget = closeEnemie;
             }
                 else{
                     chargerTarget = enemies.get(0);
@@ -67,8 +73,8 @@ public class Charger extends HybridAttackBase {
 //            turnRight(headingToEnemy - getHeading());
             turnToVector(target.getLocation());
             pointGunToVector(target.getLocation());
-            setAhead(50);
-           fire(.1);
+            setAhead(60);
+            fire(3);
 
 
 
@@ -91,19 +97,31 @@ public class Charger extends HybridAttackBase {
         missed = true;
     }
 
-    public void onHitRobot(HitRobotEvent e) {
+    public void onBulletHit(BulletHitEvent e){
+        RobotReference hitRobot;
+        hitRobot = robots.get(e.getName());
 
-        target = robots.get(e.getName());
+        if(hitRobot.isTeammate()){
+            setTurnRight(90);
+            setAhead(200);
+            setChargerTarget();
+        }
+    }
+
+    public void onHitRobot(HitRobotEvent e) {
 
 
         if (!isTeammate(e.getName())) {
+            target = robots.get(e.getName());
             if(getGunTurnRemaining() == 0) {
-
                 fire(3);
                 ahead(60);
             }
-        }else { //
 
+
+        } else {
+            setAhead(-1000);
+            setChargerTarget();
         }
         if (missed){
             pointGunToVector(target.getLocation());
