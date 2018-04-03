@@ -20,6 +20,7 @@ public class TargetLeader extends HybridAttackBase {
             doDodge();
             super.run();
             fireAtTarget();
+            System.out.println(teamTarget.getName());
         }
     }
 
@@ -80,9 +81,17 @@ public class TargetLeader extends HybridAttackBase {
 
     private void fireAtTarget() {
         if (teamTarget != null) {
-            pointGunToVector(teamTarget.getLocation());
+//            pointGunToVector(teamTarget.getLocation());
+            targetLeading();
             double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
             fire(firepower);
         }
+    }
+
+    private void targetLeading(){
+        Vector2d velocity = teamTarget.getVelocity();
+        Vector2d currentLocation = teamTarget.getLocation();
+        Vector2d prediction = new Vector2d(currentLocation.getX() + (3*velocity.getX()), currentLocation.getY() + (3 * velocity.getY()));
+        pointGunToVector(prediction);
     }
 }

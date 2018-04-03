@@ -163,7 +163,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         if (localHeading > 0) {
             setTurnRight(localHeading);
         } else if (localHeading < 0) {
-            setTurnLeft(localHeading * -1);
+            setTurnRight(localHeading * -1);
         }
     }
 
@@ -177,7 +177,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         if (localHeading > 0) {
             turnGunRight(localHeading);
         } else if (localHeading < 0) {
-            turnGunLeft(localHeading * -1);
+            turnGunRight(localHeading * -1);
         }
     }
 
