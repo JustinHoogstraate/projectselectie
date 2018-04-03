@@ -2,12 +2,8 @@ package hybridattack.targetleader;
 
 import hybridattack.Generic.*;
 import robocode.MessageEvent;
-import samplerobotvanrobin.RobotReference;
 
-import java.io.IOError;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
@@ -144,18 +140,17 @@ public class TargetLeader extends HybridAttackBase {
 
     private void fireAtTarget() {
         if (teamTarget != null) {
-            targetLeading();
             double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
+            targetLeading();
             fire(firepower);
         }
     }
 
     private void targetLeading() {
-        System.out.println(teamTarget.getName());
         Vector2d velocity = teamTarget.getVelocity();
         Vector2d currentLocation = teamTarget.getLocation();
-        double predictionX = currentLocation.getX() + 10 * velocity.getX() * Math.sin(Math.toRadians(teamTarget.getHeading()));
-        double predictionY = currentLocation.getY() + 10 * velocity.getY() * Math.cos(Math.toRadians(teamTarget.getHeading()));
+        double predictionX = currentLocation.getX() + 5 * velocity.getX();
+        double predictionY = currentLocation.getY() + 5 * velocity.getY();
         Vector2d prediction = new Vector2d(predictionX, predictionY);
         pointGunToVector(prediction);
     }
@@ -206,7 +201,7 @@ public class TargetLeader extends HybridAttackBase {
     }
 
     public void onNearObstacle(int obstacle) {
-        System.out.println(obstacle + "");
+//        System.out.println(obstacle + "");
         preventFromRammingObstacle(obstacle);
     }
 */

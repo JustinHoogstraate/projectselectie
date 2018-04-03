@@ -1,0 +1,6 @@
+#Robocode robot team
+#Tue Apr 03 13:08:42 CEST 2018
+team.members=sample.RamFire,sample.RamFire,sample.RamFire,sample.RamFire
+team.author.name=Mathew Nelson and Flemming N. Larsen
+robocode.version=1.9.3.0
+team.description=\                             A sample robot\n                  Drives at robots trying to ram them.\n                         Fires when it hits them.
