@@ -146,7 +146,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     protected void turnToVector(Vector2d vector) {
-        Vector2d relativeLocation = location.subtract(vector);
+        Vector2d relativeLocation = vector.subtract(location);
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getHeading();
         if (localHeading > 180) {
