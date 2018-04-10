@@ -4,10 +4,12 @@ import hybridattack.Generic.RobotReference;
 import hybridattack.Generic.Vector2d;
 import robocode.*;
 import hybridattack.Generic.HybridAttackBase;
+
 import java.util.ArrayList;
 
 /**
  * This robot is our "Charger" , it tries to ram the enemies while hooting at them.
+ *
  * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
  */
 
@@ -34,6 +36,7 @@ public class Charger extends HybridAttackBase {
 
     /**
      * This method handles the event of a robot boeing scanned.
+     *
      * @param event this event is created when a robot is scanned.
      * @author Vincent Luiten, Thomas Heinsbroek.
      */
@@ -45,6 +48,7 @@ public class Charger extends HybridAttackBase {
     /**
      * This method checks if there already is a target set by the TargetLeaders, and sets a different target if there is.
      * The Target set by this method is the closest non-friendly, non-TargetLeaderTarget.
+     *
      * @author Justin Hoogstraate, Thomas Heinsbroek & Vincent Luiten.
      */
     public void setChargerTarget() {
@@ -67,6 +71,7 @@ public class Charger extends HybridAttackBase {
 
     /**
      * This method lets the Charger attack its target.
+     *
      * @param target This is the enemy to be focused upon by the Charger(s).
      * @author Vincent Luiten, Thomas Heinsbroek.
      */
@@ -83,6 +88,7 @@ public class Charger extends HybridAttackBase {
 
     /**
      * This method detects when the Charger misses a bullet, so it can re-aim its gun at its target.
+     *
      * @param event the event generated when a bullet is missed.
      * @author Vincent Luiten, Thomas Heinsbroek.
      */
@@ -93,6 +99,7 @@ public class Charger extends HybridAttackBase {
 
     /**
      * This method detects if a bullet hits a robot, and if it hit a friendly robot it relocates itself to alter the trajectory of its bullets.
+     *
      * @param event the event generated when a bullet hits a robot.
      * @author Vincent Luiten, Thomas Heinsbroek.
      */
@@ -111,6 +118,7 @@ public class Charger extends HybridAttackBase {
      * This method detects the collision between a charger and another robot.
      * If it's a friendly it relocates itself, and resets its target.
      * If it's an enemy it continues ramming it.
+     *
      * @param event This event is generated when the Charger collides with another robot.
      * @author Vincent Luiten, Thomas Heinsbroek.
      */
