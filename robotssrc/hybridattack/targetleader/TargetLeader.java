@@ -38,15 +38,6 @@ public class TargetLeader extends HybridAttackBase {
     private Vector2d targetLocation = null;
 
     /**
-     * The TargetLeader's constructor has no extra paramerers, nor does it have any defining behavior.
-     *
-     * @author Robin 'Batman' van Alst, Justin Hoogstraate
-     */
-    public TargetLeader() {
-        super();
-    }
-
-    /**
      * This method checks whether the robot is near its target location or not.
      * It uses a constant integer value named TARGET_LOCATION_MARGIN as the maximum distance
      * to this target location; any distance greater than this margin is considered 'away from
@@ -78,7 +69,7 @@ public class TargetLeader extends HybridAttackBase {
             try {
                 broadcastMessage(new SetTargetLocationMessage(targetLocation));
             } catch (IOException ex) {
-                ; //ignore
+                //ignore
             }
         }
     }
