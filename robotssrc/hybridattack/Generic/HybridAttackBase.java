@@ -11,6 +11,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Base Class for the robots in our team.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public abstract class HybridAttackBase extends TeamRobot {
     protected final int TOP_WALL = 0;
     protected final int RIGHT_WALL = 1;

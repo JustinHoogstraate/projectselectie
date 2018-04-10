@@ -2,6 +2,11 @@ package hybridattack.Generic;
 
 import java.io.Serializable;
 
+/**
+ * This reference is used to broadcast a specific target, and all its available information.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public class RobotReference implements Serializable {
     private Vector2d location;
     private String name;
