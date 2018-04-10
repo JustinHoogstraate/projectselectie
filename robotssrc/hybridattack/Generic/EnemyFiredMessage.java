@@ -2,6 +2,11 @@ package hybridattack.Generic;
 
 import java.io.Serializable;
 
+/**
+ * This message is used to broadcast the event of an enemy firing a bullet.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public class EnemyFiredMessage implements Serializable {
     private Vector2d firedFromLocation;
 

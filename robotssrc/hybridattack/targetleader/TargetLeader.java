@@ -5,6 +5,11 @@ import robocode.MessageEvent;
 
 import java.io.IOException;
 
+/**
+ * This Robot tries to stick to a chosen location on the map, while setting a target to focus and firing upon that target.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public class TargetLeader extends HybridAttackBase {
     private boolean shouldDoDodge = false;
     private Vector2d dodgeAroundLocation = null;
