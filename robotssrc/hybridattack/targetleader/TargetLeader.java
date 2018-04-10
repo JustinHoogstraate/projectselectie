@@ -35,7 +35,7 @@ public class TargetLeader extends HybridAttackBase {
             try {
                 broadcastMessage(new SetTargetLocationMessage(x, y));
             } catch (IOException ex) {
-                ; //ignore
+                //ignore
             }
         }
     }
@@ -140,12 +140,18 @@ public class TargetLeader extends HybridAttackBase {
 
     private void fireAtTarget() {
         if (teamTarget != null) {
-            double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), location), 3);
+            double firepower = Math.min(400 / Vector2d.getDistanceTo(teamTarget.getLocation(), getLocation()), 3);
             targetLeading();
             fire(firepower);
         }
     }
 
+    /**
+     * Calculates the position of the enemy 5 frames in the future
+     * and turns the gun to this position
+     *
+     * @author Justin Hoogstraate
+     * */
     private void targetLeading() {
         Vector2d velocity = teamTarget.getVelocity();
         Vector2d currentLocation = teamTarget.getLocation();

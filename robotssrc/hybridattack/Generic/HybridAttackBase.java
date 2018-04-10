@@ -12,34 +12,41 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class HybridAttackBase extends TeamRobot {
-    protected final int TOP_WALL = 0;
-    protected final int RIGHT_WALL = 1;
-    protected final int BOTTOM_WALL = 2;
-    protected final int LEFT_WALL = 3;
-    protected final int NEAR_ROBOT = 4;
-
-    protected Vector2d location;
 
     protected HashMap<String, RobotReference> robots = new HashMap();
     protected RobotReference teamTarget = null;
 
     private HashMap<String, Double> previousEnergyMap = new HashMap<>();
 
-    protected final int DISTANCE_FROM_WALLS = 50;
-
     protected boolean forward = false;
 
-    public HybridAttackBase() {
-    }
-
+    /**
+     * Returns a list of enemy robots
+     *
+     * @return the list of enemy robots
+     * @author Robin van Alst
+     * */
     protected ArrayList<RobotReference> getEnemies() {
         return getRobotsByAllegiance(false);
     }
 
+    /**
+     * Returns a list of teammates
+     *
+     * @return the list of friendly robots
+     * @author Robin van Alst
+     * */
     protected ArrayList<RobotReference> getTeam() {
         return getRobotsByAllegiance(true);
     }
 
+    /**
+     * Returns a list of robots that are friendly or not
+     *
+     * @param teammate if the robots should be a teammate or an enemy
+     * @return the list of robots
+     * @author Robin van Alst
+     * */
     private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
         ArrayList<RobotReference> result = new ArrayList();
 
@@ -52,25 +59,29 @@ public abstract class HybridAttackBase extends TeamRobot {
         return result;
     }
 
+    /**
+     * The generic run method that should be executed on every robot
+     *
+     * @author Robin van Alst
+     * */
     @Override
     public void run() {
         super.run();
-
         setTurnRadarRight(360);
-
-        updateLocation();
-
-        //while (getRadarTurnRemaining() != 0 || getDistanceRemaining() != 0 || getGunTurnRemaining() != 0 || getTurnRemaining() != 0) {
         execute();
-        //}
     }
 
-    private void updateLocation() {
-        double x = getX();
-        double y = getY();
-        location = new Vector2d(x, y);
-    }
-
+    /**
+     * The generic method that should be used by every robot. <br>
+     * whenever a robot is scanned the robot reference to that robot will be created
+     * if it doesn't already exists, otherwise the reference will be updated with the new information
+     * and broadcasted to all teammates. <br>
+     * When there is no teamtarget set and the scanned robot is not a teammate the robot will be set as the
+     * team target
+     *
+     * @param event the given information by the event
+     * @author Robin van Alst, Justin Hoogstraate
+     * */
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
         super.onScannedRobot(event);
@@ -78,7 +89,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         double bearing = event.getBearing() + getHeading();
         double distance = event.getDistance();
         Vector2d relativeLocation = Vector2d.getFromBearingAndDistance(bearing, distance);
-        Vector2d absoluteLocation = relativeLocation.add(location);
+        Vector2d absoluteLocation = relativeLocation.add(getLocation());
 
         double heading = event.getHeading();
         double velocity = event.getVelocity();
@@ -107,7 +118,7 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
 
         if (!steve.isTeammate()) {
-            if (teamTarget == null && teamTarget != steve) {
+            if (teamTarget == null) {
                 setTeamTarget(steve);
             }
 
@@ -121,6 +132,13 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    /**
+     * This method will be called whenever a message is received <br>
+     * If the message is if the type SetTargetMessage the teamtarget will be set
+     * to the new teamtarget
+     *
+     * @param event message that is received
+     * */
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
@@ -130,6 +148,13 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    /**
+     * Checks if the enemy has fired
+     *
+     * @param robotReference the robot that will be checked
+     * @return the boolean if the robot has fired or not
+     * @author Justin Hoogstraate
+     */
     private boolean enemyHasFired(RobotReference robotReference) {
         try {
             if (robotReference.getEnergy() < previousEnergyMap.get(robotReference.getName())) {
@@ -142,8 +167,14 @@ public abstract class HybridAttackBase extends TeamRobot {
         return false;
     }
 
+    /**
+     * Turns the robot to a given location
+     *
+     * @param vector the location that the robot should point towards
+     * @author Justin Hoogstraate
+     * */
     protected void turnToVector(Vector2d vector) {
-        Vector2d relativeLocation = vector.subtract(location);
+        Vector2d relativeLocation = vector.subtract(getLocation());
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getHeading();
         if (localHeading > 180) {
@@ -156,9 +187,15 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    /**
+     * turns the gun to a given location
+     *
+     * @param vector the location that the gun should point towards
+     * @author Justin Hoogstraate
+     * */
     protected void pointGunToVector(Vector2d vector) {
         setAdjustGunForRobotTurn(true);
-        Vector2d relativeLocation = vector.subtract(location);
+        Vector2d relativeLocation = vector.subtract(getLocation());
         double angle = relativeLocation.getWorldBearing();
         double localHeading = angle - getGunHeading();
         while (localHeading > 180) {
@@ -181,39 +218,29 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+
+    /**
+     * Returns a Vector2d with the x and y location of the robot
+     *
+     * @return the location of the robot
+     * @author Robin van Alst
+     * */
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
-    }
-
-    protected Vector2d getVelocity2d() {
-        return Vector2d.getFromBearingAndDistance(getHeading(), 100);
-    }
-
-    protected void reverse() {
-        System.out.println("reversing");
-        forward = !forward;
-    }
-
-    protected boolean isNearLeftWall() {
-        return getX() <= DISTANCE_FROM_WALLS;
-    }
-
-    protected boolean isNearRightWall() {
-        return getX() >= getBattleFieldWidth() - DISTANCE_FROM_WALLS;
-    }
-
-    protected boolean isNearTopWall() {
-        return getY() >= getBattleFieldHeight() - DISTANCE_FROM_WALLS;
-    }
-
-    protected boolean isNearBottomWall() {
-        return getY() <= DISTANCE_FROM_WALLS;
     }
 
     protected void setTeamTarget(RobotReference reference) {
         this.teamTarget = reference;
     }
 
+
+    /**
+     * This method is called whenever a robot dies
+     * in this function the reference to this robot will be deleted
+     * and if this robot was the team target, the team target will be set to null
+     *
+     * @author Justin Hoogstraate, Thomas Heinsbroek, Robin van Alst
+     * */
     @Override
     public void onRobotDeath(RobotDeathEvent event) {
         super.onRobotDeath(event);
@@ -227,40 +254,5 @@ public abstract class HybridAttackBase extends TeamRobot {
             robots.remove(name);
 
         }
-    }
-
-    /**
-     * Returns the walls that we are close to.
-     *
-     * @return
-     */
-    protected List<Integer> getNearbyObstacles() {
-        List<Integer> result = new ArrayList();
-
-        for (String ref : robots.keySet()) {
-            if (isNearRobot(robots.get(ref))) {
-                result.add(NEAR_ROBOT);
-            }
-        }
-
-        if (isNearTopWall()) {
-            result.add(TOP_WALL);
-        }
-        if (isNearRightWall()) {
-            result.add(RIGHT_WALL);
-        }
-        if (isNearBottomWall()) {
-            result.add(BOTTOM_WALL);
-        }
-        if (isNearLeftWall()) {
-            result.add(LEFT_WALL);
-        }
-
-
-        return result;
-    }
-
-    protected boolean isNearRobot(RobotReference ref) {
-        return ref.getLocation().subtract(getLocation()).vectorLength() < 200;
     }
 }
