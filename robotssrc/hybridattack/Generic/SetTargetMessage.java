@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * This message is used to broadcast the target that is to be focused on by the target leaders.
+ *
  * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
  */
 
@@ -12,6 +13,7 @@ public class SetTargetMessage implements Serializable {
 
     /**
      * This constructor is used to create the SetTargetMessage.
+     *
      * @param target the Target that is used to create the SetTargetMessage.
      * @author Robin van Alst, Justin Hoogstraate.
      */
@@ -21,6 +23,7 @@ public class SetTargetMessage implements Serializable {
 
     /**
      * This method is used to get the target from the SetTargetMessage.
+     *
      * @return the target from the SetTargetMessage.
      * @author Robin van Alst, Justin Hoogstraate.
      */

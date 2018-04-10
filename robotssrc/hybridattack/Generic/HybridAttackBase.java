@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 /**
  * Base Class for the robots in our team.
+ *
  * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
  */
 
@@ -29,7 +30,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @return the list of enemy robots
      * @author Robin van Alst
-     * */
+     */
     protected ArrayList<RobotReference> getEnemies() {
         return getRobotsByAllegiance(false);
     }
@@ -39,7 +40,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @return the list of friendly robots
      * @author Robin van Alst
-     * */
+     */
     protected ArrayList<RobotReference> getTeam() {
         return getRobotsByAllegiance(true);
     }
@@ -50,7 +51,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      * @param teammate if the robots should be a teammate or an enemy
      * @return the list of robots
      * @author Robin van Alst
-     * */
+     */
     private ArrayList<RobotReference> getRobotsByAllegiance(boolean teammate) {
         ArrayList<RobotReference> result = new ArrayList();
 
@@ -67,7 +68,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      * The generic run method that should be executed on every robot.
      *
      * @author Robin van Alst
-     * */
+     */
     @Override
     public void run() {
         super.run();
@@ -85,7 +86,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @param event the given information by the event
      * @author Robin van Alst, Justin Hoogstraate
-     * */
+     */
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
         super.onScannedRobot(event);
@@ -142,7 +143,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      * to the new teamtarget.
      *
      * @param event message that is received
-     * */
+     */
     @Override
     public void onMessageReceived(MessageEvent event) {
         Serializable message = event.getMessage();
@@ -176,7 +177,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @param vector the location that the robot should point towards
      * @author Justin Hoogstraate
-     * */
+     */
     protected void turnToVector(Vector2d vector) {
         Vector2d relativeLocation = vector.subtract(getLocation());
         double angle = relativeLocation.getWorldBearing();
@@ -196,7 +197,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @param vector the location that the gun should point towards
      * @author Justin Hoogstraate
-     * */
+     */
     protected void pointGunToVector(Vector2d vector) {
         setAdjustGunForRobotTurn(true);
         Vector2d relativeLocation = vector.subtract(getLocation());
@@ -217,7 +218,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @param location the location from where the bullet was fired
      * @author Robin van Alst
-     * */
+     */
     protected void onEnemyFired(Vector2d location) {
         //broadcast message
         EnemyFiredMessage message = new EnemyFiredMessage(location);
@@ -234,7 +235,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @return the location of the robot
      * @author Robin van Alst
-     * */
+     */
     protected Vector2d getLocation() {
         return new Vector2d(getX(), getY());
     }
@@ -244,7 +245,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      *
      * @param reference the robot that will be set as teamtarget
      * @author Robin van Alst
-     * */
+     */
     protected void setTeamTarget(RobotReference reference) {
         this.teamTarget = reference;
     }
@@ -256,17 +257,17 @@ public abstract class HybridAttackBase extends TeamRobot {
      * When this robot was the team target, the team target will be set to null.
      *
      * @author Justin Hoogstraate, Thomas Heinsbroek, Robin van Alst
-     * */
+     */
     @Override
     public void onRobotDeath(RobotDeathEvent event) {
         super.onRobotDeath(event);
         String name = event.getName();
-        if(teamTarget != null) {
+        if (teamTarget != null) {
             if (teamTarget.getName().equals(name)) {
                 teamTarget = null;
             }
         }
-        if(robots.containsKey(name)) {
+        if (robots.containsKey(name)) {
             robots.remove(name);
 
         }
