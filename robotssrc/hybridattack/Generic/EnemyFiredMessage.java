@@ -23,6 +23,7 @@ public class EnemyFiredMessage implements Serializable {
     /**
      * this methor returns the location from which was fires.
      * @return the location generated when an enemy has fired.
+     * @author Justing Hoogstraate.
      */
     public Vector2d getFiredFromLocation() {
         return firedFromLocation;
