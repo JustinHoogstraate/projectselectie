@@ -10,10 +10,20 @@ import java.io.Serializable;
 public class EnemyFiredMessage implements Serializable {
     private Vector2d firedFromLocation;
 
+
+    /**
+     * This constructor is used to create and EnemyFiresMessage.
+     * @param firedFromLocation this Vector2D is created when an Enemy fires a bullet.
+     * @author Justin Hoogstraate.
+     */
     public EnemyFiredMessage(Vector2d firedFromLocation) {
         this.firedFromLocation = firedFromLocation;
     }
 
+    /**
+     * this methor returns the location from which was fires.
+     * @return the location generated when an enemy has fired.
+     */
     public Vector2d getFiredFromLocation() {
         return firedFromLocation;
     }
