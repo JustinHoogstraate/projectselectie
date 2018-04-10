@@ -2,6 +2,11 @@ package hybridattack.Generic;
 
 import java.io.Serializable;
 
+/**
+ * This class is used to accurately define location by implementing 2D vectors.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public class Vector2d implements Serializable {
     private double x;
     private double y;

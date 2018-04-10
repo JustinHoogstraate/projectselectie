@@ -23,6 +23,7 @@ import java.io.IOException;
  * They share a common target at all times, and will focus their combined firepower on this target
  * until it is destroyed.
  * </p>
+ *
  * @author Robin 'Batman' van Alst, Justin Hoogstraate
  */
 public class TargetLeader extends HybridAttackBase {
@@ -38,6 +39,7 @@ public class TargetLeader extends HybridAttackBase {
 
     /**
      * The TargetLeader's constructor has no extra paramerers, nor does it have any defining behavior.
+     *
      * @author Robin 'Batman' van Alst, Justin Hoogstraate
      */
     public TargetLeader() {
@@ -117,23 +119,21 @@ public class TargetLeader extends HybridAttackBase {
     public void onMessageReceived(MessageEvent event) {
         super.onMessageReceived(event);
 
-        //if (!event.getSender().equals(getName())) {
-            if (event.getMessage() instanceof EnemyFiredMessage) {
-                //Message is an EnemyFiredMessage, so we should do a dodge. The robot sets
-                // the shouldDoDodge flag, so that the doDodge() method knows to dodge.
-                EnemyFiredMessage message = (EnemyFiredMessage) event.getMessage();
-                dodgeAroundLocation = message.getFiredFromLocation();
-                shouldDoDodge = true;
-            } else if (event.getMessage() instanceof SetTargetLocationMessage) {
-                //The message is a SetTargetLocationMessage, so we should calculate the opposite
-                //of the received target location, then set that as the new target location.
-                if (event.getSender().compareTo(getName()) > 0) {
-                    SetTargetLocationMessage message = (SetTargetLocationMessage) event.getMessage();
-                    int targetX = (int) (getBattleFieldWidth() - message.getX());
-                    setTargetLocation(targetX, (int) (getBattleFieldHeight() / 2));
-                }
+        if (event.getMessage() instanceof EnemyFiredMessage) {
+            //Message is an EnemyFiredMessage, so we should do a dodge. The robot sets
+            // the shouldDoDodge flag, so that the doDodge() method knows to dodge.
+            EnemyFiredMessage message = (EnemyFiredMessage) event.getMessage();
+            dodgeAroundLocation = message.getFiredFromLocation();
+            shouldDoDodge = true;
+        } else if (event.getMessage() instanceof SetTargetLocationMessage) {
+            //The message is a SetTargetLocationMessage, so we should calculate the opposite
+            //of the received target location, then set that as the new target location.
+            if (event.getSender().compareTo(getName()) > 0) {
+                SetTargetLocationMessage message = (SetTargetLocationMessage) event.getMessage();
+                int targetX = (int) (getBattleFieldWidth() - message.getX());
+                setTargetLocation(targetX, (int) (getBattleFieldHeight() / 2));
             }
-        //}
+        }
     }
 
     /**

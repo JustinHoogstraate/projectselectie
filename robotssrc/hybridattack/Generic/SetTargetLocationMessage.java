@@ -2,6 +2,11 @@ package hybridattack.Generic;
 
 import java.io.Serializable;
 
+/**
+ * This message is used to broadcast the location of a scanned target.
+ * @author Justin Hoogstraate, Robin van Alst, Thomas Heinsbroek & Vincent Luiten.
+ */
+
 public class SetTargetLocationMessage implements Serializable {
     private int x;
     private int y;
