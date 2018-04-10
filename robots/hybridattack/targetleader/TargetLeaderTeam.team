@@ -1,0 +1,6 @@
+#Robocode robot team
+#Tue Apr 10 09:37:26 CEST 2018
+team.members=hybridattack.targetleader.TargetLeader*,hybridattack.targetleader.TargetLeader*
+team.author.name=
+robocode.version=1.9.3.0
+team.description=Target leader testing team for, private use only.

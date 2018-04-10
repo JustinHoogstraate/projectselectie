@@ -54,7 +54,7 @@ public class Charger extends HybridAttackBase {
             if (chargerTarget == null && teamTarget != null) {
                 for (RobotReference enemy : enemies) {
                     if (!enemy.isTeammate()) {
-                        if (Vector2d.getDistanceTo(closestEnemy.getLocation(), location) > Vector2d.getDistanceTo(enemy.getLocation(), location))
+                        if (Vector2d.getDistanceTo(closestEnemy.getLocation(), getLocation()) > Vector2d.getDistanceTo(enemy.getLocation(), getLocation()))
                             closestEnemy = enemy;
                     }
                 }
