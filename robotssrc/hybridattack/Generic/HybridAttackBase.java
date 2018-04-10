@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Base Class for the robots in our team.
@@ -26,7 +25,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     protected boolean forward = false;
 
     /**
-     * Returns a list of enemy robots
+     * Returns a list of enemy robots.
      *
      * @return the list of enemy robots
      * @author Robin van Alst
@@ -36,7 +35,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * Returns a list of teammates
+     * Returns a list of teammates.
      *
      * @return the list of friendly robots
      * @author Robin van Alst
@@ -46,7 +45,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * Returns a list of robots that are friendly or not
+     * Returns a list of robots that are friendly or not.
      *
      * @param teammate if the robots should be a teammate or an enemy
      * @return the list of robots
@@ -65,7 +64,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * The generic run method that should be executed on every robot
+     * The generic run method that should be executed on every robot.
      *
      * @author Robin van Alst
      * */
@@ -82,7 +81,7 @@ public abstract class HybridAttackBase extends TeamRobot {
      * if it doesn't already exists, otherwise the reference will be updated with the new information
      * and broadcasted to all teammates. <br>
      * When there is no teamtarget set and the scanned robot is not a teammate the robot will be set as the
-     * team target
+     * team target.
      *
      * @param event the given information by the event
      * @author Robin van Alst, Justin Hoogstraate
@@ -138,9 +137,9 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * This method will be called whenever a message is received <br>
-     * If the message is if the type SetTargetMessage the teamtarget will be set
-     * to the new teamtarget
+     * This method will be called whenever a message is received. <br>
+     * If the message is of the type SetTargetMessage the teamtarget will be set
+     * to the new teamtarget.
      *
      * @param event message that is received
      * */
@@ -154,7 +153,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * Checks if the enemy has fired
+     * Checks if the enemy has fired.
      *
      * @param robotReference the robot that will be checked
      * @return the boolean if the robot has fired or not
@@ -173,7 +172,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * Turns the robot to a given location
+     * Turns the robot to a given location.
      *
      * @param vector the location that the robot should point towards
      * @author Justin Hoogstraate
@@ -193,7 +192,7 @@ public abstract class HybridAttackBase extends TeamRobot {
     }
 
     /**
-     * turns the gun to a given location
+     * turns the gun to a given location.
      *
      * @param vector the location that the gun should point towards
      * @author Justin Hoogstraate
@@ -213,6 +212,12 @@ public abstract class HybridAttackBase extends TeamRobot {
         }
     }
 
+    /**
+     * Broadcast a EnemyFiredMessage to all teammates.
+     *
+     * @param location the location from where the bullet was fired
+     * @author Robin van Alst
+     * */
     protected void onEnemyFired(Vector2d location) {
         //broadcast message
         EnemyFiredMessage message = new EnemyFiredMessage(location);
@@ -225,7 +230,7 @@ public abstract class HybridAttackBase extends TeamRobot {
 
 
     /**
-     * Returns a Vector2d with the x and y location of the robot
+     * Returns a Vector2d with the x and y location of the robot.
      *
      * @return the location of the robot
      * @author Robin van Alst
@@ -234,15 +239,21 @@ public abstract class HybridAttackBase extends TeamRobot {
         return new Vector2d(getX(), getY());
     }
 
+    /**
+     * Set the teamtarget.
+     *
+     * @param reference the robot that will be set as teamtarget
+     * @author Robin van Alst
+     * */
     protected void setTeamTarget(RobotReference reference) {
         this.teamTarget = reference;
     }
 
 
     /**
-     * This method is called whenever a robot dies
-     * in this function the reference to this robot will be deleted
-     * and if this robot was the team target, the team target will be set to null
+     * This method is called whenever a robot dies. <br>
+     * in this function the reference to this robot will be deleted.
+     * When this robot was the team target, the team target will be set to null.
      *
      * @author Justin Hoogstraate, Thomas Heinsbroek, Robin van Alst
      * */
