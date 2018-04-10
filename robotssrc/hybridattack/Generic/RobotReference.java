@@ -56,42 +56,59 @@ public class RobotReference implements Serializable {
         return this.energy;
     }
 
+    /**
+     * Sets the location of this robot.
+     * @param value the Vector2D value the location is to be set to.
+     */
     public void setLocation(Vector2d value) {
         this.location = value;
     }
 
-    public void setLocation(double x, double y) {
-        setLocation(new Vector2d(x, y));
-    }
-
+    /**
+     * Sets the velocity of this robot.
+     * @param value the Vector2D value the velocity is to be set to.
+     */
     public void setVelocity(Vector2d value) {
         this.velocity = value;
     }
 
-    public void setVelocity(double x, double y) {
-        setVelocity(new Vector2d(x, y));
-    }
-
+    /**
+     * Sets the energy of this robot.
+     * @param value the Vector2D value the energy is to be set to.
+     */
     public void setEnergy(double value) {
         this.energy = value;
     }
 
+    /**
+     * Checks if this Robot is a teammate.
+     * @return false if it is an enemy, and true if it is a friendly.
+     */
     public boolean isTeammate() {
         return this.isTeammate;
     }
 
     /**
      * Returns the heading (body facing direction) of this robot.
-     * @return
+     * @return heading of the robot
      */
     public double getHeading() {
         return heading;
     }
 
+    /**
+     * Sets the heading of this robot.
+     * @param heading the heading that the heading of this robot is to be set to.
+     */
     public void setHeading(double heading) {
         this.heading = heading;
     }
 
+    /**
+     * This method checks if the recieved RobotReference is about the same robot as this RobotReference.
+     * @param obj the recieved RobotReference.
+     * @return true is it's the same, false if it's a different robot.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RobotReference) {

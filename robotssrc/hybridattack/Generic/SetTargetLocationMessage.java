@@ -8,19 +8,32 @@ import java.io.Serializable;
  */
 
 public class SetTargetLocationMessage implements Serializable {
-    private int x;
-    private int y;
+   private Vector2d location;
 
-    public SetTargetLocationMessage(int x, int y) {
-        this.x = x;
-        this.y = y;
+    /**
+     * this constructor is used to create a SetTargetLocationMessage.
+     * @param location the location that is used to create the SetTargetLocationMessage.
+     * @author Robin van Alst.
+     */
+    public SetTargetLocationMessage(Vector2d location) {
+        this.location = location;
     }
 
-    public int getX() {
-        return x;
+    /**
+     * This method gets the location value from the message.
+     * @return the location in the message.
+     * @author Robin van Alst, Justin Hoogstraate & Thomas Heinsbroek.
+     */
+    public Vector2d getLocation() {
+        return location;
     }
 
-    public int getY() {
-        return this.y;
+    /**
+     * This method sets the location of the message.
+     * @param location the location that the location of the message is to be set to.
+     * @author Robin van Alst, Justin Hoogstraate & Thomas Heinsbroek.
+     */
+    public void setLocation(Vector2d location) {
+        this.location = location;
     }
 }

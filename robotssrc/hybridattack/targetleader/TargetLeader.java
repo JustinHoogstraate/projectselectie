@@ -76,7 +76,7 @@ public class TargetLeader extends HybridAttackBase {
             System.out.println("Setting target location to " + x + ", " + y);
             this.targetLocation = new Vector2d(x, y);
             try {
-                broadcastMessage(new SetTargetLocationMessage(x, y));
+                broadcastMessage(new SetTargetLocationMessage(targetLocation));
             } catch (IOException ex) {
                 ; //ignore
             }
@@ -130,7 +130,7 @@ public class TargetLeader extends HybridAttackBase {
             //of the received target location, then set that as the new target location.
             if (event.getSender().compareTo(getName()) > 0) {
                 SetTargetLocationMessage message = (SetTargetLocationMessage) event.getMessage();
-                int targetX = (int) (getBattleFieldWidth() - message.getX());
+                int targetX = (int) (getBattleFieldWidth() - message.getLocation().getX());
                 setTargetLocation(targetX, (int) (getBattleFieldHeight() / 2));
             }
         }
