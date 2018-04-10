@@ -142,6 +142,7 @@ public class Vector2d implements Serializable {
      * this method returns the angle that is to be turned to to face the Vector2d.
      * @param angle the angle that is faced to.
      * @return the new Vector2d that is to be faced to.
+     * @author Robin van Alst.
      */
     public Vector2d rotate(double angle) {
         double length = vectorLength();
@@ -155,6 +156,7 @@ public class Vector2d implements Serializable {
      * @param vector1 the Vector2d that the robot is currently at.
      * @param vector2 the Vector2 that the robot wants to know it's distance to.
      * @return the distance between the 2 Vector2d's.
+     * @author Justin Hoogstraate.
      */
     public static double getDistanceTo(Vector2d vector1, Vector2d vector2){
         double deltaX = vector1.getX() - vector2.getX();
